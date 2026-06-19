@@ -92,6 +92,7 @@ fun SwitchPreferenceRow(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     icon: ImageVector? = null,
+    iconContent: (@Composable () -> Unit)? = null,
     position: PreferencePosition = PreferencePosition.Single,
 ) {
     PreferenceSurface(
@@ -102,7 +103,11 @@ fun SwitchPreferenceRow(
         checked = checked,
         onCheckedChange = onCheckedChange,
     ) {
-        PreferenceIcon(icon)
+        if (iconContent != null) {
+            PreferenceLeadingIcon(iconContent)
+        } else {
+            PreferenceIcon(icon)
+        }
         Column(
             modifier = Modifier
                 .weight(1f)

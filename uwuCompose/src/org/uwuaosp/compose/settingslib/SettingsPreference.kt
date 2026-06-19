@@ -65,6 +65,7 @@ fun PreferenceRow(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     icon: ImageVector? = null,
+    iconContent: (@Composable () -> Unit)? = null,
     position: PreferencePosition = PreferencePosition.Single,
     onClick: () -> Unit,
 ) {
@@ -74,7 +75,11 @@ fun PreferenceRow(
         position = position,
         onClick = onClick,
     ) {
-        PreferenceIcon(icon)
+        if (iconContent != null) {
+            PreferenceLeadingIcon(iconContent)
+        } else {
+            PreferenceIcon(icon)
+        }
         Column(
             modifier = Modifier
                 .weight(1f)

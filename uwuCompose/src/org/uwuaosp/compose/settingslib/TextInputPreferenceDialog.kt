@@ -83,9 +83,12 @@ fun TextInputPreferenceDialog(
         modifier = modifier.width(settingsDialogWidth()),
         onDismissRequest = onDismissRequest,
         title = {
+            val fontFamilies = rememberSettingsFontFamilies()
             Text(
                 text = title,
-                fontWeight = FontWeight.SemiBold,
+                style = MaterialTheme.typography.titleLarge.emphasized(
+                    fontFamilies.titleLargeEmphasized
+                ),
             )
         },
         text = {

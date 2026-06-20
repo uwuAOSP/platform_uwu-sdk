@@ -42,7 +42,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
@@ -165,7 +164,6 @@ internal fun PreferenceTitle(title: String) {
         text = title,
         color = MaterialTheme.colorScheme.onSurface,
         style = MaterialTheme.typography.titleMedium,
-        fontWeight = FontWeight.SemiBold,
         maxLines = 2,
         overflow = TextOverflow.Ellipsis,
     )
@@ -178,7 +176,6 @@ internal fun PreferenceSummary(summary: String) {
         text = summary,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
         style = MaterialTheme.typography.bodyMedium,
-        fontWeight = FontWeight.Normal,
         maxLines = 3,
         overflow = TextOverflow.Ellipsis,
     )

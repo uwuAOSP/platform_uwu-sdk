@@ -17,10 +17,12 @@
 package org.uwuaosp.compose.settingslib
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -41,7 +43,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -51,6 +52,8 @@ fun MainSwitchPreference(
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val fontFamilies = rememberSettingsFontFamilies()
+
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -70,8 +73,9 @@ fun MainSwitchPreference(
             Text(
                 text = title,
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold,
+                style = MaterialTheme.typography.titleMedium.emphasized(
+                    fontFamilies.titleMediumEmphasized
+                ),
                 modifier = Modifier
                     .weight(1f)
                     .padding(top = 16.dp, end = 8.dp, bottom = 16.dp),
@@ -121,6 +125,57 @@ fun SwitchPreferenceRow(
             checked = checked,
             onCheckedChange = null,
             enabled = enabled,
+            modifier = Modifier.align(Alignment.CenterVertically),
+        )
+    }
+}
+
+@Composable
+fun PrimarySwitchPreferenceRow(
+    title: String,
+    summary: String,
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    switchEnabled: Boolean = enabled,
+    icon: ImageVector? = null,
+    iconContent: (@Composable () -> Unit)? = null,
+    position: PreferencePosition = PreferencePosition.Single,
+) {
+    PreferenceSurface(
+        modifier = modifier,
+        enabled = enabled,
+        position = position,
+        onClick = onClick,
+    ) {
+        if (iconContent != null) {
+            PreferenceLeadingIcon(iconContent)
+        } else {
+            PreferenceIcon(icon)
+        }
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .padding(vertical = 12.dp)
+        ) {
+            PreferenceTitle(title)
+            PreferenceSummary(summary)
+        }
+        Spacer(modifier = Modifier.width(16.dp))
+        Box(
+            modifier = Modifier
+                .width(1.dp)
+                .height(40.dp)
+                .clip(RoundedCornerShape(1.dp))
+                .background(MaterialTheme.colorScheme.outlineVariant)
+        )
+        Spacer(modifier = Modifier.width(16.dp))
+        SettingsSwitch(
+            checked = checked,
+            onCheckedChange = onCheckedChange,
+            enabled = enabled && switchEnabled,
             modifier = Modifier.align(Alignment.CenterVertically),
         )
     }

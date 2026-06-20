@@ -90,5 +90,5 @@ internal fun PreferenceLeadingIcon(
 ) {
     if (icon == null) return
     icon()
-    Spacer(modifier = Modifier.size(width = 24.dp, height = 1.dp))
+    Spacer(modifier = Modifier.size(width = 16.dp, height = 1.dp))
 }

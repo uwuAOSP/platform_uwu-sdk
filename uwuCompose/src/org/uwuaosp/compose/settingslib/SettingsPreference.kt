@@ -66,6 +66,7 @@ fun PreferenceRow(
     icon: ImageVector? = null,
     iconContent: (@Composable () -> Unit)? = null,
     position: PreferencePosition = PreferencePosition.Single,
+    showSummary: Boolean = true,
     onClick: () -> Unit,
 ) {
     PreferenceSurface(
@@ -85,7 +86,9 @@ fun PreferenceRow(
                 .padding(vertical = 12.dp)
         ) {
             PreferenceTitle(title)
-            PreferenceSummary(summary)
+            if (showSummary) {
+                PreferenceSummary(summary)
+            }
         }
     }
 }

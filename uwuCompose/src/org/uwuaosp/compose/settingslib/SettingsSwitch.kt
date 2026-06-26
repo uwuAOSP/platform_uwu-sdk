@@ -115,7 +115,7 @@ fun SwitchPreferenceRow(
         Column(
             modifier = Modifier
                 .weight(1f)
-                .padding(vertical = 12.dp)
+                .padding(vertical = 16.dp)
         ) {
             PreferenceTitle(title)
             PreferenceSummary(summary)
@@ -158,7 +158,7 @@ fun PrimarySwitchPreferenceRow(
         Column(
             modifier = Modifier
                 .weight(1f)
-                .padding(vertical = 12.dp)
+                .padding(vertical = 16.dp)
         ) {
             PreferenceTitle(title)
             PreferenceSummary(summary)

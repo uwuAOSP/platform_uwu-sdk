@@ -16,54 +16,47 @@
 
 package org.uwuaosp.compose.settingslib
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SettingsFooterPreference(
-    text: String,
-    modifier: Modifier = Modifier,
-    icon: ImageVector = Icons.Outlined.Info,
-) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp)
-            .heightIn(min = 72.dp),
-    ) {
-        Box(
-            modifier = Modifier
-                .widthIn(min = 56.dp)
-                .padding(top = 16.dp, end = 12.dp, bottom = 4.dp),
-            contentAlignment = Alignment.TopStart,
-        ) {
-            Icon(
-                imageVector = icon,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.size(24.dp),
-            )
-        }
+fun SettingsFooter(text: String) {
+    if (text.isEmpty()) return
+    SettingsFooter {
         Text(
             text = text,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
         )
+    }
+}
+
+@Composable
+fun SettingsFooter(
+    modifier: Modifier = Modifier,
+    icon: ImageVector = Icons.Outlined.Info,
+    content: @Composable () -> Unit,
+) {
+    Column(modifier = modifier.padding(horizontal = 24.dp, vertical = 16.dp)) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            modifier = Modifier.size(24.dp),
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        content()
     }
 }

@@ -123,6 +123,26 @@ internal fun SettingsToolbar(
             .background(MaterialTheme.colorScheme.surfaceContainer)
             .padding(top = statusBarPadding)
     ) {
+        if (useCollapsingToolbar) {
+            Text(
+                text = title,
+                color = MaterialTheme.colorScheme.onSurface,
+                style = MaterialTheme.typography.displaySmall.emphasized(
+                    fontFamilies.displaySmallEmphasized
+                ),
+                maxLines = 2,
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .alpha(1f - progress)
+                    .padding(start = 24.dp, end = 24.dp, bottom = 40.dp),
+            )
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(actionBarHeight)
+                .background(MaterialTheme.colorScheme.surfaceContainer),
+        )
         if (showBackButton) {
             SettingsToolbarActionButton(
                 imageVector = ExpressiveBackIcon,
@@ -143,20 +163,6 @@ internal fun SettingsToolbar(
             verticalAlignment = Alignment.CenterVertically,
             content = actions,
         )
-        if (useCollapsingToolbar) {
-            Text(
-                text = title,
-                color = MaterialTheme.colorScheme.onSurface,
-                style = MaterialTheme.typography.displaySmall.emphasized(
-                    fontFamilies.displaySmallEmphasized
-                ),
-                maxLines = 2,
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .alpha(1f - progress)
-                    .padding(start = 24.dp, end = 24.dp, bottom = 40.dp),
-            )
-        }
         Box(
             modifier = Modifier
                 .align(Alignment.TopStart)

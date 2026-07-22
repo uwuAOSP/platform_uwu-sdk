@@ -41,6 +41,7 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -52,6 +53,7 @@ fun SettingsScaffold(
     actions: @Composable RowScope.() -> Unit = {},
     useCollapsingToolbar: Boolean = true,
     startCollapsed: Boolean = true,
+    contentTopPadding: Dp = 18.dp,
     content: @Composable ColumnScope.() -> Unit,
 ) {
     val density = LocalDensity.current
@@ -118,7 +120,7 @@ fun SettingsScaffold(
                 .padding(top = statusBarPadding + currentToolbarHeight)
                 .padding(
                     start = 16.dp,
-                    top = 18.dp,
+                    top = contentTopPadding,
                     end = 16.dp,
                     bottom = 18.dp + navigationBarPadding,
                 )

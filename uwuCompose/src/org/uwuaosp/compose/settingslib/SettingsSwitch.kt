@@ -146,6 +146,7 @@ fun PrimarySwitchPreferenceRow(
     icon: ImageVector? = null,
     iconContent: (@Composable () -> Unit)? = null,
     position: PreferencePosition = PreferencePosition.Single,
+    showSummary: Boolean = true,
 ) {
     PreferenceSurface(
         modifier = modifier,
@@ -164,7 +165,9 @@ fun PrimarySwitchPreferenceRow(
                 .padding(vertical = 16.dp)
         ) {
             PreferenceTitle(title)
-            PreferenceSummary(summary)
+            if (showSummary) {
+                PreferenceSummary(summary)
+            }
         }
         Spacer(modifier = Modifier.width(16.dp))
         Box(

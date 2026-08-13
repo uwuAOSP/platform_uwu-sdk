@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) 2026 UwUniverse
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+<resources>
+    <!-- App name -->
+    <string name="app_name">uwuComponentGallery</string>
+
+    <!-- Home page -->
+    <string name="home_title">uwuCompose Components</string>
+    <string name="home_subtitle">A gallery showcasing all uwuCompose settings library components</string>
+
+    <!-- Component category titles -->
+    <string name="category_scaffold">Scaffold</string>
+    <string name="category_preference">Preference</string>
+    <string name="category_switch">Switch</string>
+    <string name="category_applist">App List</string>
+    <string name="category_dialog">Dialog</string>
+    <string name="category_widgets">UI Widgets</string>
+
+    <!-- Component descriptions -->
+    <string name="desc_scaffold">Screen scaffolds with collapsing toolbar support</string>
+    <string name="desc_preference">Clickable preference rows with various styles</string>
+    <string name="desc_switch">Switch-based preference rows and main switch</string>
+    <string name="desc_applist">Full app list scaffold with search bar</string>
+    <string name="desc_dialog">Text input dialog for preference editing</string>
+    <string name="desc_footer">Footer sections with info icon</string>
+    <string name="desc_category">Section category headers</string>
+    <string name="desc_topintro">Page introductory text</string>
+    <string name="desc_typography">Custom settings typography system</string>
+    <string name="desc_icons">Circular homepage-style icons</string>
+    <string name="desc_illustration">Full-width illustration headers</string>
+
+    <!-- Component subtitles -->
+    <string name="subtitle_footer">Footer &amp; FooterLegacy</string>
+    <string name="subtitle_category">SettingsCategory</string>
+    <string name="subtitle_topintro">SettingsTopIntro</string>
+    <string name="subtitle_typography">rememberSettingsTypography</string>
+    <string name="subtitle_icons">SettingsHomepageIcon</string>
+    <string name="subtitle_illustration">SettingsIllustrationHeader</string>
+
+    <!-- Scaffold page -->
+    <string name="scaffold_standard_title">Standard Scaffold</string>
+    <string name="scaffold_collapsing_title">Collapsing Scaffold</string>
+    <string name="scaffold_appbar_title">AppBar Scaffold</string>
+    <string name="scaffold_demo_content">This is demo content inside the scaffold. The toolbar collapses as you scroll down.</string>
+    <string name="scaffold_short_content">Simple app bar scaffold for lazy list screens.</string>
+    <string name="scaffold_lazy_item">Lazy item</string>
+
+    <!-- Preference page -->
+    <string name="pref_basic_title">Basic Preference</string>
+    <string name="pref_basic_summary">Simple summary text</string>
+    <string name="pref_with_icon_title">With Icon</string>
+    <string name="pref_with_icon_summary">Preference row with leading icon</string>
+    <string name="pref_disabled_title">Disabled</string>
+    <string name="pref_disabled_summary">This preference is disabled</string>
+    <string name="pref_long_title">Preference with very long title that might wrap to multiple lines</string>
+    <string name="pref_long_summary">A very long summary text to show how preferences display lengthy content with proper text overflow and ellipsis handling</string>
+    <string name="pref_single_line">Single Line Summary</string>
+
+    <!-- Switch page -->
+    <string name="switch_main_title">Main Switch</string>
+    <string name="switch_main_label">Use dark theme</string>
+    <string name="switch_basic_title">Basic Switch</string>
+    <string name="switch_basic_summary">Toggle this setting on or off</string>
+    <string name="switch_primary_title">Primary Switch</string>
+    <string name="switch_primary_summary">Clickable row with independent switch</string>
+    <string name="switch_disabled_title">Disabled Switch</string>
+    <string name="switch_disabled_summary">This switch is not available</string>
+    <string name="switch_with_icon_title">Switch with Icon</string>
+    <string name="switch_with_icon_summary">Combined switch preference row</string>
+
+    <!-- App List page -->
+    <string name="applist_title">App List Demo</string>
+    <string name="applist_search_placeholder">Search apps…</string>
+    <string name="applist_clear_search">Clear search</string>
+
+    <!-- Dialog page -->
+    <string name="dialog_title">Text Input Dialog</string>
+    <string name="dialog_label">Server hostname</string>
+    <string name="dialog_placeholder">Enter hostname</string>
+    <string name="dialog_confirm">Save</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_open">Open Dialog</string>
+    <string name="dialog_current_value">Current value: \'%1$s\'</string>
+    <string name="dialog_default_value">(empty)</string>
+    <string name="dialog_value_title">Text Input Dialog</string>
+
+    <!-- Footer page -->
+    <string name="footer_text_title">Simple Footer</string>
+    <string name="footer_text_content">This is a footer text that provides additional information about the settings on this page. Footers are used to display supplementary notes, disclaimers, or helpful tips.</string>
+    <string name="footer_custom_title">Custom Footer</string>
+    <string name="footer_custom_content">This footer uses the content slot pattern, allowing for more complex footer layouts with custom composable content.</string>
+    <string name="footer_legacy_title">Legacy Footer</string>
+    <string name="footer_legacy_content">The legacy footer variant uses a horizontal row layout with the icon placed to the left of the content.</string>
+
+    <!-- Category page -->
+    <string name="category_section1">Appearance</string>
+    <string name="category_section2">Notifications</string>
+    <string name="category_section3">About</string>
+    <string name="category_demo_item">Demo item</string>
+
+    <!-- Top Intro page -->
+    <string name="top_intro_sample">This is an introductory text displayed at the top of a settings page. It provides context or instructions for the user before they interact with the settings below. The text uses bodyLarge typography in onSurfaceVariant color for subtle emphasis.</string>
+
+    <!-- Typography page -->
+    <string name="typography_display_small">Display Small</string>
+    <string name="typography_headline_small">Headline Small</string>
+    <string name="typography_title_large">Title Large</string>
+    <string name="typography_title_medium">Title Medium</string>
+    <string name="typography_title_small">Title Small</string>
+    <string name="typography_body_large">Body Large</string>
+    <string name="typography_body_medium">Body Medium</string>
+    <string name="typography_body_small">Body Small</string>
+    <string name="typography_label_large">Label Large</string>
+    <string name="typography_label_medium">Label Medium</string>
+    <string name="typography_label_small">Label Small</string>
+    <string name="typography_sample_zh">你好世界</string>
+
+    <!-- Icon page -->
+    <string name="icon_basic">Basic Icons</string>
+    <string name="icon_preference">In Preference Row</string>
+
+    <!-- Illustration page -->
+    <string name="illustration_demo">Illustration Header</string>
+    <string name="illustration_content">The illustration header displays a full-width decorative image at the top of the page. It is commonly used in onboarding or feature-introduction screens.</string>
+
+    <!-- App List sample data -->
+    <string-array name="sample_app_labels">
+        <item>Settings</item>
+        <item>Messages</item>
+        <item>Phone</item>
+        <item>Camera</item>
+        <item>Gallery</item>
+        <item>Calendar</item>
+        <item>Clock</item>
+        <item>Calculator</item>
+        <item>Files</item>
+        <item>Contacts</item>
+        <item>Browser</item>
+        <item>Music</item>
+    </string-array>
+    <string-array name="sample_app_packages">
+        <item>com.android.settings</item>
+        <item>com.example.messages</item>
+        <item>com.example.phone</item>
+        <item>com.example.camera</item>
+        <item>com.example.gallery</item>
+        <item>com.example.calendar</item>
+        <item>com.example.clock</item>
+        <item>com.example.calculator</item>
+        <item>com.example.files</item>
+        <item>com.example.contacts</item>
+        <item>com.example.browser</item>
+        <item>com.example.music</item>
+    </string-array>
+
+    <!-- Generic -->
+    <string name="back">Back</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_info">Info</string>
+    <string name="action_search">Search</string>
+</resources>

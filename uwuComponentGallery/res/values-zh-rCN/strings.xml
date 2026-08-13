@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) 2026 UwUniverse
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+<resources>
+    <!-- Home page -->
+    <string name="home_title">uwuCompose 组件</string>
+    <string name="home_subtitle">展示 uwuCompose 设置库所有组件的画廊</string>
+
+    <!-- Component category titles -->
+    <string name="category_scaffold">框架</string>
+    <string name="category_preference">偏好设置</string>
+    <string name="category_switch">开关</string>
+    <string name="category_applist">应用列表</string>
+    <string name="category_dialog">对话框</string>
+    <string name="category_widgets">UI 控件</string>
+
+    <!-- Component descriptions -->
+    <string name="desc_scaffold">带有可折叠工具栏的页面框架</string>
+    <string name="desc_preference">各种样式的可点击偏好设置行</string>
+    <string name="desc_switch">基于开关的偏好设置行和主开关</string>
+    <string name="desc_applist">带搜索栏的完整应用列表框架</string>
+    <string name="desc_dialog">用于偏好设置编辑的文本输入对话框</string>
+    <string name="desc_footer">带信息图标的底部说明区域</string>
+    <string name="desc_category">分区标题</string>
+    <string name="desc_topintro">页面介绍文字</string>
+    <string name="desc_typography">自定义设置字体系统</string>
+    <string name="desc_icons">圆形主页风格图标</string>
+    <string name="desc_illustration">全宽插图头部</string>
+
+    <!-- Component subtitles -->
+    <string name="subtitle_footer">Footer 和 FooterLegacy</string>
+    <string name="subtitle_category">SettingsCategory</string>
+    <string name="subtitle_topintro">SettingsTopIntro</string>
+    <string name="subtitle_typography">rememberSettingsTypography</string>
+    <string name="subtitle_icons">SettingsHomepageIcon</string>
+    <string name="subtitle_illustration">SettingsIllustrationHeader</string>
+
+    <!-- Scaffold page -->
+    <string name="scaffold_standard_title">标准框架</string>
+    <string name="scaffold_collapsing_title">可折叠框架</string>
+    <string name="scaffold_appbar_title">应用栏框架</string>
+    <string name="scaffold_demo_content">这是框架内的演示内容。向下滚动时工具栏会折叠收起。</string>
+    <string name="scaffold_short_content">适用于懒加载列表屏幕的简单应用栏框架。</string>
+    <string name="scaffold_lazy_item">列表项</string>
+
+    <!-- Preference page -->
+    <string name="pref_basic_title">基础偏好设置</string>
+    <string name="pref_basic_summary">简单的摘要文字</string>
+    <string name="pref_with_icon_title">带图标</string>
+    <string name="pref_with_icon_summary">带前置图标的偏好设置行</string>
+    <string name="pref_disabled_title">已禁用</string>
+    <string name="pref_disabled_summary">此偏好设置已禁用</string>
+    <string name="pref_long_title">具有较长标题的偏好设置项目，可能会换行显示为多行</string>
+    <string name="pref_long_summary">一段非常长的摘要文字，用于展示偏好设置如何处理较长的内容，并使用适当的文字溢出和省略号处理</string>
+    <string name="pref_single_line">单行摘要</string>
+
+    <!-- Switch page -->
+    <string name="switch_main_title">主开关</string>
+    <string name="switch_main_label">使用深色主题</string>
+    <string name="switch_basic_title">基础开关</string>
+    <string name="switch_basic_summary">切换此设置的开或关</string>
+    <string name="switch_primary_title">主操作开关</string>
+    <string name="switch_primary_summary">可点击行带独立开关</string>
+    <string name="switch_disabled_title">已禁用开关</string>
+    <string name="switch_disabled_summary">此开关不可用</string>
+    <string name="switch_with_icon_title">带图标开关</string>
+    <string name="switch_with_icon_summary">组合开关偏好设置行</string>
+
+    <!-- App List page -->
+    <string name="applist_title">应用列表演示</string>
+    <string name="applist_search_placeholder">搜索应用…</string>
+    <string name="applist_clear_search">清除搜索</string>
+
+    <!-- Dialog page -->
+    <string name="dialog_title">文本输入对话框</string>
+    <string name="dialog_label">服务器主机名</string>
+    <string name="dialog_placeholder">输入主机名</string>
+    <string name="dialog_confirm">保存</string>
+    <string name="dialog_cancel">取消</string>
+    <string name="dialog_open">打开对话框</string>
+    <string name="dialog_current_value">当前值: \'%1$s\'</string>
+    <string name="dialog_default_value">(空)</string>
+    <string name="dialog_value_title">文本输入对话框</string>
+
+    <!-- Footer page -->
+    <string name="footer_text_title">简单底部说明</string>
+    <string name="footer_text_content">这是提供附加说明的底部文字。底部说明用于显示补充说明、免责声明或使用提示。</string>
+    <string name="footer_custom_title">自定义底部说明</string>
+    <string name="footer_custom_content">此底部说明使用内容插槽模式，允许使用自定义 Composable 内容构建更复杂的底部布局。</string>
+    <string name="footer_legacy_title">传统底部说明</string>
+    <string name="footer_legacy_content">传统底部说明变体使用水平行布局，图标位于内容的左侧。</string>
+
+    <!-- Category page -->
+    <string name="category_section1">外观</string>
+    <string name="category_section2">通知</string>
+    <string name="category_section3">关于</string>
+    <string name="category_demo_item">演示项目</string>
+
+    <!-- Top Intro page -->
+    <string name="top_intro_sample">这是一段显示在设置页面顶部的介绍性文字。它在用户与下方设置交互之前提供上下文信息或操作说明。这段文字使用 bodyLarge 字体和 onSurfaceVariant 颜色，以微妙的强调效果呈现。</string>
+
+    <!-- Typography page -->
+    <string name="typography_display_small">Display Small 展示小号</string>
+    <string name="typography_headline_small">Headline Small 标题小号</string>
+    <string name="typography_title_large">Title Large 标题大号</string>
+    <string name="typography_title_medium">Title Medium 标题中号</string>
+    <string name="typography_title_small">Title Small 标题小号</string>
+    <string name="typography_body_large">Body Large 正文大号</string>
+    <string name="typography_body_medium">Body Medium 正文中号</string>
+    <string name="typography_body_small">Body Small 正文小号</string>
+    <string name="typography_label_large">Label Large 标签大号</string>
+    <string name="typography_label_medium">Label Medium 标签中号</string>
+    <string name="typography_label_small">Label Small 标签小号</string>
+    <string name="typography_sample_zh">你好世界</string>
+
+    <!-- Icon page -->
+    <string name="icon_basic">基础图标</string>
+    <string name="icon_preference">在偏好设置行中</string>
+
+    <!-- Illustration page -->
+    <string name="illustration_demo">插图头部</string>
+    <string name="illustration_content">插图头部在页面顶部显示全宽装饰图片。通常用于引导页或功能介绍页面。</string>
+
+    <!-- App List sample data -->
+    <string-array name="sample_app_labels">
+        <item>设置</item>
+        <item>信息</item>
+        <item>电话</item>
+        <item>相机</item>
+        <item>图库</item>
+        <item>日历</item>
+        <item>时钟</item>
+        <item>计算器</item>
+        <item>文件</item>
+        <item>联系人</item>
+        <item>浏览器</item>
+        <item>音乐</item>
+    </string-array>
+    <string-array name="sample_app_packages">
+        <item>com.android.settings</item>
+        <item>com.example.messages</item>
+        <item>com.example.phone</item>
+        <item>com.example.camera</item>
+        <item>com.example.gallery</item>
+        <item>com.example.calendar</item>
+        <item>com.example.clock</item>
+        <item>com.example.calculator</item>
+        <item>com.example.files</item>
+        <item>com.example.contacts</item>
+        <item>com.example.browser</item>
+        <item>com.example.music</item>
+    </string-array>
+
+    <!-- Generic -->
+    <string name="back">返回</string>
+    <string name="action_settings">设置</string>
+    <string name="action_info">信息</string>
+    <string name="action_search">搜索</string>
+</resources>

@@ -60,11 +60,12 @@ fun WizardToolbarBackground(
     progress: Float,
     modifier: Modifier = Modifier,
 ) {
+    val toolbarProgress = progress.coerceIn(0f, 1f)
     Box(
         modifier = modifier
             .fillMaxWidth()
             .height(112.dp)
-            .background(MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha = progress)),
+            .background(MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha = toolbarProgress)),
     )
 }
 
@@ -75,11 +76,12 @@ fun WizardToolbarTitle(
     modifier: Modifier = Modifier,
     icon: @Composable RowScope.() -> Unit,
 ) {
+    val toolbarProgress = progress.coerceIn(0f, 1f)
     Row(
         modifier = modifier
             .fillMaxWidth()
             .height(56.dp)
-            .graphicsLayer { alpha = progress },
+            .graphicsLayer { alpha = toolbarProgress },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {

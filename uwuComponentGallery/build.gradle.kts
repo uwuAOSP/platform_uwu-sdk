@@ -27,7 +27,7 @@ android {
         applicationId = "org.uwuaosp.compose.gallery"
         versionCode = 1
         versionName = "1.0"
-        minSdk = 36
+        minSdk = 26
     }
 
     sourceSets.getByName("main") {
@@ -36,7 +36,7 @@ android {
         manifest.srcFile("AndroidManifest.xml")
     }
 
-    compileSdk = 36
+    compileSdk = 35
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -58,7 +58,7 @@ dependencies {
     implementation("androidx.compose.animation:animation")
     implementation("androidx.compose.foundation:foundation")
     implementation("androidx.compose.foundation:foundation-layout")
-    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.material3:material3:1.3.2")
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.compose.runtime:runtime")
     implementation("androidx.compose.ui:ui")

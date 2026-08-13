@@ -89,7 +89,7 @@ fun SettingsToolbarActionButton(
                 .background(MaterialTheme.colorScheme.surfaceContainerHighest)
                 .clickable(
                     interactionSource = interactionSource,
-                    indication = ripple(bounded = true),
+                    indication = ripple(),
                     onClick = onClick,
                 ),
             contentAlignment = Alignment.Center,

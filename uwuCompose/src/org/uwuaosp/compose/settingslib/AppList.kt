@@ -46,7 +46,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
-import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -148,33 +147,27 @@ fun AppListScaffold(
             contentAlignment = Alignment.BottomCenter,
         ) {
             SearchBar(
-                inputField = {
-                    SearchBarDefaults.InputField(
-                        query = searchQuery,
-                        onQueryChange = onSearchQueryChange,
-                        onSearch = {},
-                        expanded = false,
-                        onExpandedChange = {},
-                        placeholder = { Text(searchPlaceholder) },
-                        leadingIcon = {
-                            Icon(Icons.Outlined.Search, contentDescription = null)
-                        },
-                        trailingIcon = if (searchQuery.isNotEmpty()) {
-                            {
-                                IconButton(onClick = { onSearchQueryChange("") }) {
-                                    Icon(
-                                        Icons.Outlined.Close,
-                                        contentDescription = clearSearchContentDescription,
-                                    )
-                                }
-                            }
-                        } else {
-                            null
-                        },
-                    )
+                query = searchQuery,
+                onQueryChange = onSearchQueryChange,
+                onSearch = {},
+                active = false,
+                onActiveChange = {},
+                placeholder = { Text(searchPlaceholder) },
+                leadingIcon = {
+                    Icon(Icons.Outlined.Search, contentDescription = null)
                 },
-                expanded = false,
-                onExpandedChange = {},
+                trailingIcon = if (searchQuery.isNotEmpty()) {
+                    {
+                        IconButton(onClick = { onSearchQueryChange("") }) {
+                            Icon(
+                                Icons.Outlined.Close,
+                                contentDescription = clearSearchContentDescription,
+                            )
+                        }
+                    }
+                } else {
+                    null
+                },
                 shadowElevation = 0.dp,
                 modifier = Modifier
                     .fillMaxWidth()

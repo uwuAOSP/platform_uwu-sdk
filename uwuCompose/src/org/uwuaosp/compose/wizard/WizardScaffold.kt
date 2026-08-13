@@ -49,6 +49,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -178,7 +179,8 @@ private fun WizardContentColumn(
     }
     val scrollState = rememberScrollState()
     val updateToolbarProgress = LocalWizardToolbarProgressUpdater.current
-    val toolbarProgress = (scrollState.value / 72f).coerceIn(0f, 1f)
+    val toolbarCollapseDistance = with(LocalDensity.current) { 72.dp.toPx() }
+    val toolbarProgress = (scrollState.value / toolbarCollapseDistance).coerceIn(0f, 1f)
     LaunchedEffect(toolbarProgress) {
         updateToolbarProgress(toolbarProgress)
     }

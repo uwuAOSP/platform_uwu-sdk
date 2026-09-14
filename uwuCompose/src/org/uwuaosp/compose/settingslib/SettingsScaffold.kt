@@ -69,7 +69,7 @@ fun SettingsAppBarScaffold(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.surfaceContainerLowest),
+            .background(MaterialTheme.colorScheme.surfaceContainer),
     ) {
         content(contentPadding)
         SettingsToolbar(
@@ -83,7 +83,7 @@ fun SettingsAppBarScaffold(
             actions = actions,
             titleContent = titleContent,
             useWeightedTitleLayout = true,
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
+            containerColor = MaterialTheme.colorScheme.surfaceContainer,
         )
     }
 }

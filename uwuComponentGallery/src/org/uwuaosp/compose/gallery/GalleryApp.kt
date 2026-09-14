@@ -33,6 +33,7 @@ import org.uwuaosp.compose.gallery.pages.AppListPage
 import org.uwuaosp.compose.gallery.pages.CategoryPage
 import org.uwuaosp.compose.gallery.pages.DialogPage
 import org.uwuaosp.compose.gallery.pages.FooterPage
+import org.uwuaosp.compose.gallery.pages.GlifPage
 import org.uwuaosp.compose.gallery.pages.HomePage
 import org.uwuaosp.compose.gallery.pages.IconPage
 import org.uwuaosp.compose.gallery.pages.IllustrationPage
@@ -51,6 +52,7 @@ sealed class GalleryScreen {
     data object Switch : GalleryScreen()
     data object AppList : GalleryScreen()
     data object Dialog : GalleryScreen()
+    data object Glif : GalleryScreen()
     data object Footer : GalleryScreen()
     data object Category : GalleryScreen()
     data object TopIntro : GalleryScreen()
@@ -95,6 +97,9 @@ fun GalleryApp() {
                 onBack = { currentScreen = GalleryScreen.Home },
             )
             GalleryScreen.Dialog -> DialogPage(
+                onBack = { currentScreen = GalleryScreen.Home },
+            )
+            GalleryScreen.Glif -> GlifPage(
                 onBack = { currentScreen = GalleryScreen.Home },
             )
             GalleryScreen.Footer -> FooterPage(

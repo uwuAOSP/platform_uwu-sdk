@@ -28,6 +28,7 @@
     <string name="category_switch">Switch</string>
     <string name="category_applist">App List</string>
     <string name="category_dialog">Dialog</string>
+    <string name="category_glif">Glif Wizard</string>
     <string name="category_widgets">UI Widgets</string>
 
     <!-- Component descriptions -->
@@ -36,6 +37,7 @@
     <string name="desc_switch">Switch-based preference rows and main switch</string>
     <string name="desc_applist">Full app list scaffold with search bar</string>
     <string name="desc_dialog">Text input dialog for preference editing</string>
+    <string name="desc_glif">Responsive guided-flow scaffold for setup and onboarding</string>
     <string name="desc_footer">Footer sections with info icon</string>
     <string name="desc_category">Section category headers</string>
     <string name="desc_topintro">Page introductory text</string>
@@ -97,6 +99,16 @@
     <string name="dialog_current_value">Current value: \'%1$s\'</string>
     <string name="dialog_default_value">(empty)</string>
     <string name="dialog_value_title">Text Input Dialog</string>
+
+    <!-- Glif page -->
+    <string name="glif_title">Personalize your experience</string>
+    <string name="glif_description">Take a moment to choose the options that make uwuAOSP feel at home.</string>
+    <string name="glif_content_title">One clear step at a time</string>
+    <string name="glif_content_body">GlifScaffold adapts its layout for compact and wide screens while keeping the next action close at hand.</string>
+    <string name="glif_ready">Your setup is ready to continue.</string>
+    <string name="glif_continue">Continue</string>
+    <string name="glif_done">Done</string>
+    <string name="glif_not_now">Not now</string>
 
     <!-- Footer page -->
     <string name="footer_text_title">Simple Footer</string>

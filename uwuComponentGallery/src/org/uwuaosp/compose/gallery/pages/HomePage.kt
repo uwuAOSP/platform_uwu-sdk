@@ -22,6 +22,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Apps
 import androidx.compose.material.icons.outlined.Category
 import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.Layers
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.outlined.Settings
@@ -86,6 +87,14 @@ fun HomePage(onNavigate: (GalleryScreen) -> Unit) {
                 summary = stringResource(R.string.desc_dialog),
                 icon = Icons.Outlined.Edit,
                 onClick = { onNavigate(GalleryScreen.Dialog) },
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            SettingsCategory(stringResource(R.string.category_glif))
+            PreferenceRow(
+                title = stringResource(R.string.glif_title),
+                summary = stringResource(R.string.desc_glif),
+                icon = Icons.Outlined.AutoAwesome,
+                onClick = { onNavigate(GalleryScreen.Glif) },
             )
             Spacer(modifier = Modifier.height(8.dp))
             SettingsCategory(stringResource(R.string.category_widgets))

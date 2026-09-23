@@ -45,7 +45,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SearchBar
+import androidx.compose.material3.SearchBarDefaults
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -65,6 +66,42 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AppListSearchBar(
+    query: String,
+    searchPlaceholder: String,
+    clearSearchContentDescription: String,
+    onQueryChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Surface(
+        modifier = modifier,
+        shape = RoundedCornerShape(28.dp),
+        color = MaterialTheme.colorScheme.surfaceContainerHigh,
+    ) {
+        SearchBarDefaults.InputField(
+            query = query,
+            onQueryChange = onQueryChange,
+            onSearch = {},
+            expanded = false,
+            onExpandedChange = {},
+            placeholder = { Text(searchPlaceholder) },
+            leadingIcon = { Icon(Icons.Outlined.Search, contentDescription = null) },
+            trailingIcon = if (query.isNotEmpty()) {
+                {
+                    IconButton(onClick = { onQueryChange("") }) {
+                        Icon(Icons.Outlined.Close, contentDescription = clearSearchContentDescription)
+                    }
+                }
+            } else {
+                null
+            },
+            modifier = Modifier.fillMaxWidth(),
+        )
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -146,33 +183,16 @@ fun AppListScaffold(
                 .background(MaterialTheme.colorScheme.surfaceContainer),
             contentAlignment = Alignment.BottomCenter,
         ) {
-            SearchBar(
+            AppListSearchBar(
                 query = searchQuery,
+                searchPlaceholder = searchPlaceholder,
+                clearSearchContentDescription = clearSearchContentDescription,
                 onQueryChange = onSearchQueryChange,
-                onSearch = {},
-                active = false,
-                onActiveChange = {},
-                placeholder = { Text(searchPlaceholder) },
-                leadingIcon = {
-                    Icon(Icons.Outlined.Search, contentDescription = null)
-                },
-                trailingIcon = if (searchQuery.isNotEmpty()) {
-                    {
-                        IconButton(onClick = { onSearchQueryChange("") }) {
-                            Icon(
-                                Icons.Outlined.Close,
-                                contentDescription = clearSearchContentDescription,
-                            )
-                        }
-                    }
-                } else {
-                    null
-                },
-                shadowElevation = 0.dp,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 16.dp, end = 16.dp, bottom = 18.dp),
-            ) {}
+                    .padding(start = 16.dp, end = 16.dp)
+                    .padding(bottom = 18.dp),
+            )
         }
         SettingsToolbar(
             title = title,
@@ -192,16 +212,18 @@ fun AppListItem(
     label: String,
     packageName: String,
     icon: ImageBitmap,
-    position: PreferencePosition,
+    index: Int = 0,
+    itemCount: Int = 1,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     trailingContent: @Composable RowScope.() -> Unit = {},
 ) {
-    PreferenceSurface(
+    CustomPreferenceRow(
         modifier = modifier,
         enabled = enabled,
-        position = position,
+        index = index,
+        itemCount = itemCount,
         onClick = onClick,
     ) {
         Image(
@@ -280,14 +302,5 @@ fun AppListError(
         TextButton(onClick = onRetry) {
             Text(retryText)
         }
-    }
-}
-
-fun preferencePosition(index: Int, lastIndex: Int): PreferencePosition {
-    return when {
-        lastIndex == 0 -> PreferencePosition.Single
-        index == 0 -> PreferencePosition.Top
-        index == lastIndex -> PreferencePosition.Bottom
-        else -> PreferencePosition.Middle
     }
 }

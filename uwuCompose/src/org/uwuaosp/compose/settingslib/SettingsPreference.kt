@@ -45,18 +45,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
-enum class PreferencePosition {
-    Single,
-    Top,
-    Middle,
-    Bottom,
-}
-
-@Composable
-fun PreferenceGroupSpacer() {
-    Spacer(modifier = Modifier.height(2.dp))
-}
-
 @Composable
 fun PreferenceRow(
     title: String,
@@ -66,14 +54,19 @@ fun PreferenceRow(
     icon: ImageVector? = null,
     iconContent: (@Composable () -> Unit)? = null,
     trailingContent: (@Composable RowScope.() -> Unit)? = null,
-    position: PreferencePosition = PreferencePosition.Single,
+    index: Int = 0,
+    itemCount: Int = 1,
     showSummary: Boolean = true,
     onClick: (() -> Unit)? = null,
 ) {
     PreferenceSurface(
         modifier = modifier,
         enabled = enabled,
-        position = position,
+        position = if (itemCount > 1) {
+            preferenceGroupPosition(index, itemCount)
+        } else {
+            LocalPreferenceGroupPosition.current
+        },
         onClick = onClick,
     ) {
         if (iconContent != null) {
@@ -99,7 +92,7 @@ fun PreferenceRow(
 internal fun PreferenceSurface(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    position: PreferencePosition = PreferencePosition.Single,
+    position: PreferenceGroupPosition = PreferenceGroupPosition.Single,
     onClick: (() -> Unit)? = null,
     checked: Boolean? = null,
     onCheckedChange: ((Boolean) -> Unit)? = null,

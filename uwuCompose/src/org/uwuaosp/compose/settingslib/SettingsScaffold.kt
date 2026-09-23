@@ -97,14 +97,14 @@ fun SettingsScaffold(
     actions: @Composable RowScope.() -> Unit = {},
     useCollapsingToolbar: Boolean = true,
     startCollapsed: Boolean = true,
-    contentTopPadding: Dp = 18.dp,
+    contentTopPadding: Dp = 0.dp,
     content: @Composable ColumnScope.() -> Unit,
 ) {
     val density = LocalDensity.current
     val statusBarPadding = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
     val navigationBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
     val actionBarHeight = actionBarSize()
-    val expandedToolbarHeight = 176.dp
+    val expandedToolbarHeight = 179.dp
     val collapseRangePx = with(density) {
         (expandedToolbarHeight - actionBarHeight).coerceAtLeast(0.dp).toPx()
     }

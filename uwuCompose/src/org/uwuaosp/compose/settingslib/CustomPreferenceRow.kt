@@ -16,9 +16,13 @@
 
 package org.uwuaosp.compose.settingslib
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 
 /**
  * A slot-based preference row for content that does not fit the standard title and summary model.
@@ -27,15 +31,24 @@ import androidx.compose.ui.Modifier
 fun CustomPreferenceRow(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    position: PreferencePosition = PreferencePosition.Single,
+    index: Int = 0,
+    itemCount: Int = 1,
     onClick: (() -> Unit)? = null,
     content: @Composable RowScope.() -> Unit,
 ) {
-    PreferenceSurface(
-        modifier = modifier,
-        enabled = enabled,
-        position = position,
-        onClick = onClick,
-        content = content,
-    )
+    Column(modifier = modifier) {
+        if (index > 0) {
+            Spacer(modifier = Modifier.height(2.dp))
+        }
+        PreferenceSurface(
+            enabled = enabled,
+            position = if (itemCount > 1) {
+                preferenceGroupPosition(index, itemCount)
+            } else {
+                LocalPreferenceGroupPosition.current
+            },
+            onClick = onClick,
+            content = content,
+        )
+    }
 }

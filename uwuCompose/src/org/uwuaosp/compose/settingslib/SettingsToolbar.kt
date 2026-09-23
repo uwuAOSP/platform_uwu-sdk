@@ -16,6 +16,7 @@
 
 package org.uwuaosp.compose.settingslib
 
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -120,6 +121,7 @@ internal fun SettingsToolbar(
 ) {
     val actionBarHeight = actionBarSize()
     val fontFamilies = rememberSettingsFontFamilies()
+    val titleProgress = FastOutSlowInEasing.transform(progress.coerceIn(0f, 1f))
 
     Box(
         modifier = Modifier
@@ -138,8 +140,8 @@ internal fun SettingsToolbar(
                 maxLines = 2,
                 modifier = Modifier
                     .align(Alignment.BottomStart)
-                    .alpha(1f - progress)
-                    .padding(start = 24.dp, end = 24.dp, bottom = 40.dp),
+                    .alpha(1f - titleProgress)
+                    .padding(start = 24.dp, end = 24.dp, bottom = 28.dp),
             )
         }
         Box(
@@ -167,7 +169,7 @@ internal fun SettingsToolbar(
             ) {
                 Box(
                     modifier = Modifier.weight(1f).padding(start = if (showBackButton) 88.dp else 24.dp)
-                        .alpha(if (useCollapsingToolbar) progress else 1f),
+                        .alpha(if (useCollapsingToolbar) titleProgress else 1f),
                     contentAlignment = Alignment.CenterStart,
                 ) {
                     titleContent?.invoke() ?: Text(text = title, color = MaterialTheme.colorScheme.onSurface,
@@ -185,7 +187,7 @@ internal fun SettingsToolbar(
             Box(
                 modifier = Modifier.align(Alignment.TopStart).height(actionBarHeight)
                     .padding(start = if (showBackButton) 88.dp else 24.dp, end = 24.dp)
-                    .alpha(if (useCollapsingToolbar) progress else 1f),
+                    .alpha(if (useCollapsingToolbar) titleProgress else 1f),
                 contentAlignment = Alignment.CenterStart,
             ) {
                 Text(text = title, color = MaterialTheme.colorScheme.onSurface,

@@ -17,6 +17,7 @@
 package org.uwuaosp.compose.settingslib
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -41,6 +42,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
@@ -97,13 +99,18 @@ fun SwitchPreferenceRow(
     enabled: Boolean = true,
     icon: ImageVector? = null,
     iconContent: (@Composable () -> Unit)? = null,
-    position: PreferencePosition = PreferencePosition.Single,
+    index: Int = 0,
+    itemCount: Int = 1,
     showSummary: Boolean = true,
 ) {
     PreferenceSurface(
         modifier = modifier,
         enabled = enabled,
-        position = position,
+        position = if (itemCount > 1) {
+            preferenceGroupPosition(index, itemCount)
+        } else {
+            LocalPreferenceGroupPosition.current
+        },
         role = Role.Switch,
         checked = checked,
         onCheckedChange = onCheckedChange,
@@ -145,45 +152,67 @@ fun PrimarySwitchPreferenceRow(
     switchEnabled: Boolean = enabled,
     icon: ImageVector? = null,
     iconContent: (@Composable () -> Unit)? = null,
-    position: PreferencePosition = PreferencePosition.Single,
+    index: Int = 0,
+    itemCount: Int = 1,
     showSummary: Boolean = true,
 ) {
-    PreferenceSurface(
-        modifier = modifier,
-        enabled = enabled,
-        position = position,
-        onClick = onClick,
+    val position = if (itemCount > 1) {
+        preferenceGroupPosition(index, itemCount)
+    } else {
+        LocalPreferenceGroupPosition.current
+    }
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .alpha(if (enabled) 1f else 0.38f)
+            .clip(preferenceShape(position))
+            .background(MaterialTheme.colorScheme.surfaceBright),
     ) {
-        if (iconContent != null) {
-            PreferenceLeadingIcon(iconContent)
-        } else {
-            PreferenceIcon(icon)
-        }
-        Column(
+        Row(
             modifier = Modifier
-                .weight(1f)
-                .padding(vertical = 16.dp)
+                .fillMaxWidth()
+                .heightIn(min = 72.dp)
+                .padding(horizontal = 20.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            PreferenceTitle(title)
-            if (showSummary) {
-                PreferenceSummary(summary)
+            Row(
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable(enabled = enabled, role = Role.Button, onClick = onClick),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                if (iconContent != null) {
+                    PreferenceLeadingIcon(iconContent)
+                } else {
+                    PreferenceIcon(icon)
+                }
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(vertical = 16.dp),
+                ) {
+                    PreferenceTitle(title)
+                    if (showSummary) {
+                        PreferenceSummary(summary)
+                    }
+                }
             }
+            Spacer(modifier = Modifier.width(16.dp))
+            Box(
+                modifier = Modifier
+                    .width(1.dp)
+                    .height(40.dp)
+                    .clip(RoundedCornerShape(1.dp))
+                    .background(MaterialTheme.colorScheme.outlineVariant)
+            )
+            Spacer(modifier = Modifier.width(16.dp))
+            SettingsSwitch(
+                checked = checked,
+                onCheckedChange = onCheckedChange,
+                enabled = enabled && switchEnabled,
+                modifier = Modifier.align(Alignment.CenterVertically),
+            )
         }
-        Spacer(modifier = Modifier.width(16.dp))
-        Box(
-            modifier = Modifier
-                .width(1.dp)
-                .height(40.dp)
-                .clip(RoundedCornerShape(1.dp))
-                .background(MaterialTheme.colorScheme.outlineVariant)
-        )
-        Spacer(modifier = Modifier.width(16.dp))
-        SettingsSwitch(
-            checked = checked,
-            onCheckedChange = onCheckedChange,
-            enabled = enabled && switchEnabled,
-            modifier = Modifier.align(Alignment.CenterVertically),
-        )
     }
 }
 

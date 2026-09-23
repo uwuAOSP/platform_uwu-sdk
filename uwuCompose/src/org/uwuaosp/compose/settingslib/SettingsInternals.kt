@@ -25,17 +25,17 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-internal fun preferenceShape(position: PreferencePosition): RoundedCornerShape {
+internal fun preferenceShape(position: PreferenceGroupPosition): RoundedCornerShape {
     return when (position) {
-        PreferencePosition.Single -> RoundedCornerShape(20.dp)
-        PreferencePosition.Top -> RoundedCornerShape(
+        PreferenceGroupPosition.Single -> RoundedCornerShape(20.dp)
+        PreferenceGroupPosition.Top -> RoundedCornerShape(
             topStart = 20.dp,
             topEnd = 20.dp,
             bottomEnd = 4.dp,
             bottomStart = 4.dp,
         )
-        PreferencePosition.Middle -> RoundedCornerShape(4.dp)
-        PreferencePosition.Bottom -> RoundedCornerShape(
+        PreferenceGroupPosition.Middle -> RoundedCornerShape(4.dp)
+        PreferenceGroupPosition.Bottom -> RoundedCornerShape(
             topStart = 4.dp,
             topEnd = 4.dp,
             bottomEnd = 20.dp,

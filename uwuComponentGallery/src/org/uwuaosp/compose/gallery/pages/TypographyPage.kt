@@ -25,7 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import org.uwuaosp.compose.gallery.R
-import org.uwuaosp.compose.settingslib.SettingsCategory
+import org.uwuaosp.compose.settingslib.SettingsSectionHeader
 import org.uwuaosp.compose.settingslib.SettingsScaffold
 import org.uwuaosp.compose.settingslib.rememberSettingsTypography
 
@@ -39,37 +39,37 @@ fun TypographyPage(onBack: () -> Unit) {
         onNavigateUp = onBack,
         contentTopPadding = 0.dp,
         content = {
-            SettingsCategory(stringResource(R.string.typography_display_small))
+            SettingsSectionHeader(stringResource(R.string.typography_display_small))
             Text(stringResource(R.string.typography_display_small), style = typography.displaySmall)
             Spacer(modifier = Modifier.height(4.dp))
-            SettingsCategory(stringResource(R.string.typography_headline_small))
+            SettingsSectionHeader(stringResource(R.string.typography_headline_small))
             Text(stringResource(R.string.typography_headline_small), style = typography.headlineSmall)
             Spacer(modifier = Modifier.height(4.dp))
-            SettingsCategory(stringResource(R.string.typography_title_large))
+            SettingsSectionHeader(stringResource(R.string.typography_title_large))
             Text(stringResource(R.string.typography_title_large), style = typography.titleLarge)
             Spacer(modifier = Modifier.height(4.dp))
-            SettingsCategory(stringResource(R.string.typography_title_medium))
+            SettingsSectionHeader(stringResource(R.string.typography_title_medium))
             Text(stringResource(R.string.typography_title_medium), style = typography.titleMedium)
             Spacer(modifier = Modifier.height(4.dp))
-            SettingsCategory(stringResource(R.string.typography_title_small))
+            SettingsSectionHeader(stringResource(R.string.typography_title_small))
             Text(stringResource(R.string.typography_title_small), style = typography.titleSmall)
             Spacer(modifier = Modifier.height(4.dp))
-            SettingsCategory(stringResource(R.string.typography_body_large))
+            SettingsSectionHeader(stringResource(R.string.typography_body_large))
             Text(stringResource(R.string.typography_body_large), style = typography.bodyLarge)
             Spacer(modifier = Modifier.height(4.dp))
-            SettingsCategory(stringResource(R.string.typography_body_medium))
+            SettingsSectionHeader(stringResource(R.string.typography_body_medium))
             Text(stringResource(R.string.typography_body_medium), style = typography.bodyMedium)
             Spacer(modifier = Modifier.height(4.dp))
-            SettingsCategory(stringResource(R.string.typography_body_small))
+            SettingsSectionHeader(stringResource(R.string.typography_body_small))
             Text(stringResource(R.string.typography_body_small), style = typography.bodySmall)
             Spacer(modifier = Modifier.height(4.dp))
-            SettingsCategory(stringResource(R.string.typography_label_large))
+            SettingsSectionHeader(stringResource(R.string.typography_label_large))
             Text(stringResource(R.string.typography_label_large), style = typography.labelLarge)
             Spacer(modifier = Modifier.height(4.dp))
-            SettingsCategory(stringResource(R.string.typography_label_medium))
+            SettingsSectionHeader(stringResource(R.string.typography_label_medium))
             Text(stringResource(R.string.typography_label_medium), style = typography.labelMedium)
             Spacer(modifier = Modifier.height(4.dp))
-            SettingsCategory(stringResource(R.string.typography_label_small))
+            SettingsSectionHeader(stringResource(R.string.typography_label_small))
             Text(stringResource(R.string.typography_label_small), style = typography.labelSmall)
             Spacer(modifier = Modifier.height(24.dp))
         },

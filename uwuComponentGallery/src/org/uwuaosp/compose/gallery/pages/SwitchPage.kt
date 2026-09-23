@@ -30,11 +30,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import org.uwuaosp.compose.gallery.R
 import org.uwuaosp.compose.settingslib.MainSwitchPreference
-import org.uwuaosp.compose.settingslib.PreferenceGroupSpacer
-import org.uwuaosp.compose.settingslib.PreferencePosition
 import org.uwuaosp.compose.settingslib.PrimarySwitchPreferenceRow
-import org.uwuaosp.compose.settingslib.SettingsCategory
 import org.uwuaosp.compose.settingslib.SettingsScaffold
+import org.uwuaosp.compose.settingslib.SettingsSection
+import org.uwuaosp.compose.settingslib.SettingsSectionSpacer
 import org.uwuaosp.compose.settingslib.SwitchPreferenceRow
 
 @Composable
@@ -50,48 +49,59 @@ fun SwitchPage(onBack: () -> Unit) {
         onNavigateUp = onBack,
         contentTopPadding = 0.dp,
         content = {
-            SettingsCategory(stringResource(R.string.switch_main_title))
-            MainSwitchPreference(
-                title = stringResource(R.string.switch_main_label),
-                checked = mainChecked,
-                onCheckedChange = { mainChecked = it },
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            SettingsCategory(stringResource(R.string.switch_basic_title))
-            SwitchPreferenceRow(
-                title = stringResource(R.string.switch_basic_title),
-                summary = stringResource(R.string.switch_basic_summary),
-                checked = basicChecked,
-                onCheckedChange = { basicChecked = it },
-                position = PreferencePosition.Top,
-            )
-            PreferenceGroupSpacer()
-            SwitchPreferenceRow(
-                title = stringResource(R.string.switch_disabled_title),
-                summary = stringResource(R.string.switch_disabled_summary),
-                checked = false,
-                onCheckedChange = {},
-                enabled = false,
-                position = PreferencePosition.Bottom,
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            SettingsCategory(stringResource(R.string.switch_primary_title))
-            PrimarySwitchPreferenceRow(
-                title = stringResource(R.string.switch_primary_title),
-                summary = stringResource(R.string.switch_primary_summary),
-                checked = primaryChecked,
-                onCheckedChange = { primaryChecked = it },
-                onClick = {},
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            SettingsCategory(stringResource(R.string.switch_with_icon_title))
-            SwitchPreferenceRow(
-                title = stringResource(R.string.switch_with_icon_title),
-                summary = stringResource(R.string.switch_with_icon_summary),
-                checked = iconChecked,
-                onCheckedChange = { iconChecked = it },
-                icon = Icons.Outlined.DarkMode,
-            )
+            SettingsSection(stringResource(R.string.switch_main_title)) {
+                item {
+                    MainSwitchPreference(
+                        title = stringResource(R.string.switch_main_label),
+                        checked = mainChecked,
+                        onCheckedChange = { mainChecked = it },
+                    )
+                }
+            }
+            SettingsSectionSpacer()
+            SettingsSection(stringResource(R.string.switch_basic_title)) {
+                item {
+                    SwitchPreferenceRow(
+                        title = stringResource(R.string.switch_basic_title),
+                        summary = stringResource(R.string.switch_basic_summary),
+                        checked = basicChecked,
+                        onCheckedChange = { basicChecked = it },
+                    )
+                }
+                item {
+                    SwitchPreferenceRow(
+                        title = stringResource(R.string.switch_disabled_title),
+                        summary = stringResource(R.string.switch_disabled_summary),
+                        checked = false,
+                        onCheckedChange = {},
+                        enabled = false,
+                    )
+                }
+            }
+            SettingsSectionSpacer()
+            SettingsSection(stringResource(R.string.switch_primary_title)) {
+                item {
+                    PrimarySwitchPreferenceRow(
+                        title = stringResource(R.string.switch_primary_title),
+                        summary = stringResource(R.string.switch_primary_summary),
+                        checked = primaryChecked,
+                        onCheckedChange = { primaryChecked = it },
+                        onClick = {},
+                    )
+                }
+            }
+            SettingsSectionSpacer()
+            SettingsSection(stringResource(R.string.switch_with_icon_title)) {
+                item {
+                    SwitchPreferenceRow(
+                        title = stringResource(R.string.switch_with_icon_title),
+                        summary = stringResource(R.string.switch_with_icon_summary),
+                        checked = iconChecked,
+                        onCheckedChange = { iconChecked = it },
+                        icon = Icons.Outlined.DarkMode,
+                    )
+                }
+            }
             Spacer(modifier = Modifier.height(24.dp))
         },
     )

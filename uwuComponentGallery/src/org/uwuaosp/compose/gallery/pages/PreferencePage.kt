@@ -27,11 +27,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import org.uwuaosp.compose.gallery.R
-import org.uwuaosp.compose.settingslib.PreferenceGroupSpacer
-import org.uwuaosp.compose.settingslib.PreferencePosition
 import org.uwuaosp.compose.settingslib.PreferenceRow
-import org.uwuaosp.compose.settingslib.SettingsCategory
 import org.uwuaosp.compose.settingslib.SettingsScaffold
+import org.uwuaosp.compose.settingslib.SettingsSection
+import org.uwuaosp.compose.settingslib.SettingsSectionSpacer
 
 @Composable
 fun PreferencePage(onBack: () -> Unit) {
@@ -41,55 +40,62 @@ fun PreferencePage(onBack: () -> Unit) {
         onNavigateUp = onBack,
         contentTopPadding = 0.dp,
         content = {
-            SettingsCategory(stringResource(R.string.pref_basic_title))
-            PreferenceRow(
-                title = stringResource(R.string.pref_basic_title),
-                summary = stringResource(R.string.pref_basic_summary),
-                position = PreferencePosition.Top,
-                onClick = {},
-            )
-            PreferenceGroupSpacer()
-            PreferenceRow(
-                title = stringResource(R.string.pref_with_icon_title),
-                summary = stringResource(R.string.pref_with_icon_summary),
-                icon = Icons.Outlined.Settings,
-                position = PreferencePosition.Bottom,
-                onClick = {},
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            SettingsCategory(stringResource(R.string.pref_disabled_title))
-            PreferenceRow(
-                title = stringResource(R.string.pref_disabled_title),
-                summary = stringResource(R.string.pref_disabled_summary),
-                enabled = false,
-                icon = Icons.Outlined.VpnKey,
-                onClick = {},
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            SettingsCategory(stringResource(R.string.pref_long_title))
-            PreferenceRow(
-                title = stringResource(R.string.pref_long_title),
-                summary = stringResource(R.string.pref_long_summary),
-                position = PreferencePosition.Top,
-                onClick = {},
-            )
-            PreferenceGroupSpacer()
-            PreferenceRow(
-                title = stringResource(R.string.pref_single_line),
-                summary = stringResource(R.string.pref_basic_summary),
-                showSummary = true,
-                position = PreferencePosition.Middle,
-                onClick = {},
-            )
-            PreferenceGroupSpacer()
-            PreferenceRow(
-                title = stringResource(R.string.pref_basic_title),
-                summary = null,
-                showSummary = false,
-                icon = Icons.Outlined.Star,
-                position = PreferencePosition.Bottom,
-                onClick = {},
-            )
+            SettingsSection(stringResource(R.string.pref_basic_title)) {
+                item {
+                    PreferenceRow(
+                        title = stringResource(R.string.pref_basic_title),
+                        summary = stringResource(R.string.pref_basic_summary),
+                        onClick = {},
+                    )
+                }
+                item {
+                    PreferenceRow(
+                        title = stringResource(R.string.pref_with_icon_title),
+                        summary = stringResource(R.string.pref_with_icon_summary),
+                        icon = Icons.Outlined.Settings,
+                        onClick = {},
+                    )
+                }
+            }
+            SettingsSectionSpacer()
+            SettingsSection(stringResource(R.string.pref_disabled_title)) {
+                item {
+                    PreferenceRow(
+                        title = stringResource(R.string.pref_disabled_title),
+                        summary = stringResource(R.string.pref_disabled_summary),
+                        enabled = false,
+                        icon = Icons.Outlined.VpnKey,
+                        onClick = {},
+                    )
+                }
+            }
+            SettingsSectionSpacer()
+            SettingsSection(stringResource(R.string.pref_long_title)) {
+                item {
+                    PreferenceRow(
+                        title = stringResource(R.string.pref_long_title),
+                        summary = stringResource(R.string.pref_long_summary),
+                        onClick = {},
+                    )
+                }
+                item {
+                    PreferenceRow(
+                        title = stringResource(R.string.pref_single_line),
+                        summary = stringResource(R.string.pref_basic_summary),
+                        showSummary = true,
+                        onClick = {},
+                    )
+                }
+                item {
+                    PreferenceRow(
+                        title = stringResource(R.string.pref_basic_title),
+                        summary = null,
+                        showSummary = false,
+                        icon = Icons.Outlined.Star,
+                        onClick = {},
+                    )
+                }
+            }
             Spacer(modifier = Modifier.height(24.dp))
         },
     )

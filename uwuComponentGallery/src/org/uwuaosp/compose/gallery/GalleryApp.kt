@@ -24,11 +24,15 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import org.uwuaosp.compose.gallery.pages.AppListPage
 import org.uwuaosp.compose.gallery.pages.CategoryPage
 import org.uwuaosp.compose.gallery.pages.DialogPage
@@ -39,6 +43,7 @@ import org.uwuaosp.compose.gallery.pages.IconPage
 import org.uwuaosp.compose.gallery.pages.IllustrationPage
 import org.uwuaosp.compose.gallery.pages.PreferencePage
 import org.uwuaosp.compose.gallery.pages.ScaffoldPage
+import org.uwuaosp.compose.gallery.pages.SearchPage
 import org.uwuaosp.compose.gallery.pages.SwitchPage
 import org.uwuaosp.compose.gallery.pages.TopIntroPage
 import org.uwuaosp.compose.gallery.pages.TypographyPage
@@ -59,6 +64,7 @@ sealed class GalleryScreen {
     data object Typography : GalleryScreen()
     data object Icons : GalleryScreen()
     data object Illustration : GalleryScreen()
+    data object Search : GalleryScreen()
 }
 
 @Composable
@@ -71,6 +77,9 @@ fun GalleryApp() {
 
     AnimatedContent(
         targetState = currentScreen,
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.surfaceContainer),
         transitionSpec = {
             val isGoingBack = targetState == GalleryScreen.Home
             slideInHorizontally(tween(TRANSITION_DURATION), initialOffsetX = { if (isGoingBack) -it else it }) +
@@ -118,6 +127,9 @@ fun GalleryApp() {
                 onBack = { currentScreen = GalleryScreen.Home },
             )
             GalleryScreen.Illustration -> IllustrationPage(
+                onBack = { currentScreen = GalleryScreen.Home },
+            )
+            GalleryScreen.Search -> SearchPage(
                 onBack = { currentScreen = GalleryScreen.Home },
             )
         }

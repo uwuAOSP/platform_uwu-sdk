@@ -25,11 +25,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import org.uwuaosp.compose.gallery.R
-import org.uwuaosp.compose.settingslib.PreferenceGroupSpacer
-import org.uwuaosp.compose.settingslib.PreferencePosition
 import org.uwuaosp.compose.settingslib.PreferenceRow
-import org.uwuaosp.compose.settingslib.SettingsCategory
 import org.uwuaosp.compose.settingslib.SettingsScaffold
+import org.uwuaosp.compose.settingslib.SettingsSection
 
 @Composable
 fun ScaffoldPage(onBack: () -> Unit) {
@@ -39,22 +37,16 @@ fun ScaffoldPage(onBack: () -> Unit) {
         onNavigateUp = onBack,
         contentTopPadding = 0.dp,
         content = {
-            SettingsCategory(stringResource(R.string.scaffold_standard_title))
-            for (i in 1..5) {
-                val position = when (i) {
-                    1 -> PreferencePosition.Top
-                    5 -> PreferencePosition.Bottom
-                    else -> PreferencePosition.Middle
-                }
-                PreferenceRow(
-                    title = "${stringResource(R.string.scaffold_lazy_item)} $i",
-                    summary = stringResource(R.string.scaffold_demo_content),
-                    icon = Icons.Outlined.Layers,
-                    position = position,
-                    onClick = {},
-                )
-                if (i < 5) {
-                    PreferenceGroupSpacer()
+            SettingsSection(stringResource(R.string.scaffold_standard_title)) {
+                for (i in 1..50) {
+                    item {
+                        PreferenceRow(
+                            title = "${stringResource(R.string.scaffold_lazy_item)} $i",
+                            summary = stringResource(R.string.scaffold_demo_content),
+                            icon = Icons.Outlined.Layers,
+                            onClick = {},
+                        )
+                    }
                 }
             }
             Spacer(modifier = Modifier.height(24.dp))

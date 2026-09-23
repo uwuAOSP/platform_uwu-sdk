@@ -44,6 +44,7 @@
     <string name="desc_typography">Custom settings typography system</string>
     <string name="desc_icons">Circular homepage-style icons</string>
     <string name="desc_illustration">Full-width illustration headers</string>
+    <string name="desc_search">App list and settings search fields</string>
 
     <!-- Component subtitles -->
     <string name="subtitle_footer">Footer &amp; FooterLegacy</string>
@@ -52,6 +53,7 @@
     <string name="subtitle_typography">rememberSettingsTypography</string>
     <string name="subtitle_icons">SettingsHomepageIcon</string>
     <string name="subtitle_illustration">SettingsIllustrationHeader</string>
+    <string name="subtitle_search">Search fields</string>
 
     <!-- Scaffold page -->
     <string name="scaffold_standard_title">Standard Scaffold</string>
@@ -88,6 +90,12 @@
     <string name="applist_title">App List Demo</string>
     <string name="applist_search_placeholder">Search apps…</string>
     <string name="applist_clear_search">Clear search</string>
+    <string name="search_demo_title">Search Fields</string>
+    <string name="search_demo_app_list_title">App List SearchBar</string>
+    <string name="search_demo_app_list_placeholder">Search apps</string>
+    <string name="search_demo_settings_title">Settings Search Field</string>
+    <string name="search_demo_settings_placeholder">Search settings</string>
+    <string name="search_demo_clear">Clear search</string>
 
     <!-- Dialog page -->
     <string name="dialog_title">Text Input Dialog</string>

@@ -23,7 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import org.uwuaosp.compose.gallery.R
-import org.uwuaosp.compose.settingslib.SettingsCategory
+import org.uwuaosp.compose.settingslib.SettingsSectionHeader
 import org.uwuaosp.compose.settingslib.SettingsFooter
 import org.uwuaosp.compose.settingslib.SettingsFooterLegacy
 import org.uwuaosp.compose.settingslib.SettingsScaffold
@@ -36,10 +36,10 @@ fun FooterPage(onBack: () -> Unit) {
         onNavigateUp = onBack,
         contentTopPadding = 0.dp,
         content = {
-            SettingsCategory(stringResource(R.string.footer_text_title))
+            SettingsSectionHeader(stringResource(R.string.footer_text_title))
             SettingsFooter(text = stringResource(R.string.footer_text_content))
             Spacer(modifier = Modifier.height(8.dp))
-            SettingsCategory(stringResource(R.string.footer_legacy_title))
+            SettingsSectionHeader(stringResource(R.string.footer_legacy_title))
             SettingsFooterLegacy(text = stringResource(R.string.footer_legacy_content))
             Spacer(modifier = Modifier.height(24.dp))
         },

@@ -26,11 +26,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import org.uwuaosp.compose.gallery.R
-import org.uwuaosp.compose.settingslib.PreferenceGroupSpacer
-import org.uwuaosp.compose.settingslib.PreferencePosition
 import org.uwuaosp.compose.settingslib.PreferenceRow
-import org.uwuaosp.compose.settingslib.SettingsCategory
 import org.uwuaosp.compose.settingslib.SettingsScaffold
+import org.uwuaosp.compose.settingslib.SettingsSection
+import org.uwuaosp.compose.settingslib.SettingsSectionSpacer
 
 @Composable
 fun CategoryPage(onBack: () -> Unit) {
@@ -40,44 +39,51 @@ fun CategoryPage(onBack: () -> Unit) {
         onNavigateUp = onBack,
         contentTopPadding = 0.dp,
         content = {
-            SettingsCategory(stringResource(R.string.category_section1))
-            PreferenceRow(
-                title = stringResource(R.string.category_demo_item),
-                summary = stringResource(R.string.category_section1),
-                icon = Icons.Outlined.Palette,
-                position = PreferencePosition.Top,
-                onClick = {},
-            )
-            PreferenceGroupSpacer()
-            PreferenceRow(
-                title = stringResource(R.string.pref_basic_title),
-                summary = stringResource(R.string.pref_basic_summary),
-                position = PreferencePosition.Bottom,
-                onClick = {},
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            SettingsCategory(stringResource(R.string.category_section2))
-            PreferenceRow(
-                title = stringResource(R.string.category_demo_item),
-                summary = stringResource(R.string.category_section2),
-                icon = Icons.Outlined.Notifications,
-                onClick = {},
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            SettingsCategory(stringResource(R.string.category_section3))
-            PreferenceRow(
-                title = stringResource(R.string.category_demo_item),
-                summary = stringResource(R.string.category_section3),
-                position = PreferencePosition.Top,
-                onClick = {},
-            )
-            PreferenceGroupSpacer()
-            PreferenceRow(
-                title = stringResource(R.string.pref_basic_title),
-                summary = stringResource(R.string.pref_with_icon_summary),
-                position = PreferencePosition.Bottom,
-                onClick = {},
-            )
+            SettingsSection(stringResource(R.string.category_section1)) {
+                item {
+                    PreferenceRow(
+                        title = stringResource(R.string.category_demo_item),
+                        summary = stringResource(R.string.category_section1),
+                        icon = Icons.Outlined.Palette,
+                        onClick = {},
+                    )
+                }
+                item {
+                    PreferenceRow(
+                        title = stringResource(R.string.pref_basic_title),
+                        summary = stringResource(R.string.pref_basic_summary),
+                        onClick = {},
+                    )
+                }
+            }
+            SettingsSectionSpacer()
+            SettingsSection(stringResource(R.string.category_section2)) {
+                item {
+                    PreferenceRow(
+                        title = stringResource(R.string.category_demo_item),
+                        summary = stringResource(R.string.category_section2),
+                        icon = Icons.Outlined.Notifications,
+                        onClick = {},
+                    )
+                }
+            }
+            SettingsSectionSpacer()
+            SettingsSection(stringResource(R.string.category_section3)) {
+                item {
+                    PreferenceRow(
+                        title = stringResource(R.string.category_demo_item),
+                        summary = stringResource(R.string.category_section3),
+                        onClick = {},
+                    )
+                }
+                item {
+                    PreferenceRow(
+                        title = stringResource(R.string.pref_basic_title),
+                        summary = stringResource(R.string.pref_with_icon_summary),
+                        onClick = {},
+                    )
+                }
+            }
             Spacer(modifier = Modifier.height(24.dp))
         },
     )

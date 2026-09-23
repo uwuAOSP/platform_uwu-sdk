@@ -24,14 +24,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.foundation.layout.Column
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.Modifier
 import org.uwuaosp.compose.gallery.R
 import org.uwuaosp.compose.settingslib.AppListItem
 import org.uwuaosp.compose.settingslib.AppListScaffold
-import org.uwuaosp.compose.settingslib.preferencePosition
 
 private data class SampleApp(
     val label: String,
@@ -105,7 +106,8 @@ fun AppListPage(onBack: () -> Unit) {
                     label = app.label,
                     packageName = app.packageName,
                     icon = iconGenerator.generate(app.label),
-                    position = preferencePosition(index, filteredApps.lastIndex),
+                    index = index,
+                    itemCount = filteredApps.size,
                     onClick = {},
                 )
             }

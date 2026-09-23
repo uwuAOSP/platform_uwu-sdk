@@ -33,7 +33,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import org.uwuaosp.compose.gallery.R
 import org.uwuaosp.compose.settingslib.PreferenceRow
-import org.uwuaosp.compose.settingslib.SettingsCategory
+import org.uwuaosp.compose.settingslib.SettingsSectionHeader
 import org.uwuaosp.compose.settingslib.SettingsHomepageIcon
 import org.uwuaosp.compose.settingslib.SettingsScaffold
 
@@ -45,7 +45,7 @@ fun IconPage(onBack: () -> Unit) {
         onNavigateUp = onBack,
         contentTopPadding = 0.dp,
         content = {
-            SettingsCategory(stringResource(R.string.icon_basic))
+            SettingsSectionHeader(stringResource(R.string.icon_basic))
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly,
@@ -56,7 +56,7 @@ fun IconPage(onBack: () -> Unit) {
                 SettingsHomepageIcon(imageVector = Icons.Outlined.Star)
             }
             Spacer(modifier = Modifier.height(8.dp))
-            SettingsCategory(stringResource(R.string.icon_preference))
+            SettingsSectionHeader(stringResource(R.string.icon_preference))
             PreferenceRow(
                 title = stringResource(R.string.icon_preference),
                 summary = stringResource(R.string.pref_with_icon_summary),

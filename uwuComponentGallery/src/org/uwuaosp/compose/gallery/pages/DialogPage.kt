@@ -30,7 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import org.uwuaosp.compose.gallery.R
 import org.uwuaosp.compose.settingslib.PreferenceRow
-import org.uwuaosp.compose.settingslib.SettingsCategory
+import org.uwuaosp.compose.settingslib.SettingsSectionHeader
 import org.uwuaosp.compose.settingslib.SettingsScaffold
 import org.uwuaosp.compose.settingslib.TextInputPreferenceDialog
 
@@ -45,7 +45,7 @@ fun DialogPage(onBack: () -> Unit) {
         onNavigateUp = onBack,
         contentTopPadding = 0.dp,
         content = {
-            SettingsCategory(stringResource(R.string.dialog_value_title))
+            SettingsSectionHeader(stringResource(R.string.dialog_value_title))
             val displayValue = if (savedValue.isEmpty()) {
                 stringResource(R.string.dialog_default_value)
             } else {

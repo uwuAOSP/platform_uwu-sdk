@@ -25,7 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import org.uwuaosp.compose.gallery.R
-import org.uwuaosp.compose.settingslib.SettingsCategory
+import org.uwuaosp.compose.settingslib.SettingsSectionHeader
 import org.uwuaosp.compose.settingslib.SettingsScaffold
 
 @Composable
@@ -36,7 +36,7 @@ fun IllustrationPage(onBack: () -> Unit) {
         onNavigateUp = onBack,
         contentTopPadding = 0.dp,
         content = {
-            SettingsCategory(stringResource(R.string.illustration_demo))
+            SettingsSectionHeader(stringResource(R.string.illustration_demo))
             Text(
                 text = stringResource(R.string.illustration_content),
                 style = MaterialTheme.typography.bodyMedium,

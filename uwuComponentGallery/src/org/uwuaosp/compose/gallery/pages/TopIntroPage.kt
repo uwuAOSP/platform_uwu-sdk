@@ -23,7 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import org.uwuaosp.compose.gallery.R
-import org.uwuaosp.compose.settingslib.SettingsCategory
+import org.uwuaosp.compose.settingslib.SettingsSectionHeader
 import org.uwuaosp.compose.settingslib.SettingsScaffold
 import org.uwuaosp.compose.settingslib.SettingsTopIntro
 
@@ -35,7 +35,7 @@ fun TopIntroPage(onBack: () -> Unit) {
         onNavigateUp = onBack,
         contentTopPadding = 0.dp,
         content = {
-            SettingsCategory(stringResource(R.string.subtitle_topintro))
+            SettingsSectionHeader(stringResource(R.string.subtitle_topintro))
             SettingsTopIntro(text = stringResource(R.string.top_intro_sample))
             Spacer(modifier = Modifier.height(24.dp))
         },

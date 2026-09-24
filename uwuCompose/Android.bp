@@ -20,6 +20,7 @@ android_library {
     srcs: ["src/**/*.kt"],
     manifest: "AndroidManifest.xml",
     sdk_version: "current",
+    min_sdk_version: "26",
     visibility: ["//visibility:public"],
 
     static_libs: [

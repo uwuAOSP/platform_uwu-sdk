@@ -1,0 +1,11 @@
+name: "houbb-pinyin"
+description: "Phrase-aware pinyin conversion and Chinese segmentation for uwuPinyin"
+third_party {
+  url { type: HOMEPAGE value: "https://github.com/houbb/pinyin" }
+  url { type: ARCHIVE value: "https://repo.maven.apache.org/maven2/com/github/houbb/pinyin/0.4.0/pinyin-0.4.0-sources.jar" }
+  url { type: HOMEPAGE value: "https://github.com/houbb/nlp-common" }
+  url { type: ARCHIVE value: "https://repo.maven.apache.org/maven2/com/github/houbb/nlp-common/0.0.5/nlp-common-0.0.5-sources.jar" }
+  version: "pinyin 0.4.0; nlp-common 0.0.5"
+  license_type: NOTICE
+  last_upgrade_date { year: 2026 month: 10 day: 11 }
+}

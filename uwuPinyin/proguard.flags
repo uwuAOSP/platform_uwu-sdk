@@ -1,0 +1,7 @@
+# houbb's Instances factory creates dictionary, segment and style implementations reflectively.
+-keepclassmembers class com.github.houbb.pinyin.** {
+    public <init>();
+}
+-keepclassmembers class com.github.houbb.nlp.common.** {
+    public <init>();
+}

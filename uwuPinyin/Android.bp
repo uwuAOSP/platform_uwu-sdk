@@ -1,0 +1,51 @@
+package {
+    default_applicable_licenses: ["uwuPinyin_license"],
+}
+
+license {
+    name: "uwuPinyin_license",
+    visibility: [":__subpackages__"],
+    license_kinds: ["SPDX-license-identifier-Apache-2.0"],
+    license_text: ["third_party/LICENSE"],
+}
+
+java_library {
+    name: "uwuPinyin",
+    srcs: ["src/**/*.java"],
+    static_libs: ["uwu-pinyin-houbb"],
+    sdk_version: "current",
+    min_sdk_version: "26",
+    java_version: "1.8",
+    visibility: ["//visibility:public"],
+    optimize: {
+        proguard_flags_files: ["proguard.flags"],
+        export_proguard_flags_files: true,
+    },
+}
+
+java_library {
+    name: "uwu-pinyin-houbb",
+    srcs: ["third_party/pinyin/src/**/*.java"],
+    java_resource_dirs: ["third_party/pinyin/resources"],
+    static_libs: [
+        "uwu-pinyin-nlp-common",
+        "uwu-pinyin-heaven",
+    ],
+    sdk_version: "current",
+    min_sdk_version: "26",
+    java_version: "1.8",
+    visibility: ["//visibility:private"],
+}
+
+java_library {
+    name: "uwu-pinyin-nlp-common",
+    srcs: ["third_party/nlp-common/src/**/*.java"],
+    java_resource_dirs: ["third_party/nlp-common/resources"],
+    // Pinyin builds its trie from its own phrase dictionary, not the generic NLP word list.
+    exclude_java_resources: ["third_party/nlp-common/resources/nlp/word_freq_dict.txt"],
+    static_libs: ["uwu-pinyin-heaven"],
+    sdk_version: "current",
+    min_sdk_version: "26",
+    java_version: "1.8",
+    visibility: ["//visibility:private"],
+}

@@ -5,25 +5,24 @@
 
 package org.uwuaosp.compose.gallery.pages
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import org.uwuaosp.compose.gallery.R
-import org.uwuaosp.compose.settingslib.AppListSearchBar
-import org.uwuaosp.compose.settingslib.SettingsScaffold
-import org.uwuaosp.compose.settingslib.SettingsSearchField
-import org.uwuaosp.compose.settingslib.SettingsSectionHeader
-import org.uwuaosp.compose.settingslib.SettingsSectionSpacer
+import org.uwuaosp.compose.widget.app.AppListSearchBar
+import org.uwuaosp.compose.widget.editor.SettingsSearchField
+import org.uwuaosp.compose.widget.preference.SettingsSectionHeader
+import org.uwuaosp.compose.widget.preference.SettingsSectionSpacer
+import org.uwuaosp.compose.widget.scaffold.SettingsScaffold
 
 @Composable
 fun SearchPage(onBack: () -> Unit) {
-    var appListQuery by remember { mutableStateOf("") }
-    var settingsQuery by remember { mutableStateOf("") }
+    var appListQuery by rememberSaveable { mutableStateOf("") }
+    var settingsQuery by rememberSaveable { mutableStateOf("") }
 
     SettingsScaffold(
         title = stringResource(R.string.search_demo_title),

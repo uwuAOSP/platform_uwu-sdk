@@ -16,6 +16,7 @@
 
 plugins {
     id("com.android.application") version "8.6.0"
+    id("com.android.library") version "8.6.0" apply false
     id("org.jetbrains.kotlin.android") version "2.1.20"
     id("org.jetbrains.kotlin.plugin.compose") version "2.1.20"
 }
@@ -31,42 +32,25 @@ android {
     }
 
     sourceSets.getByName("main") {
-        kotlin.setSrcDirs(listOf("src", "../uwuCompose/src"))
+        kotlin.setSrcDirs(listOf("src"))
         res.setSrcDirs(listOf("res"))
         manifest.srcFile("AndroidManifest.xml")
     }
 
     compileSdk = 35
+    buildFeatures { compose = true }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    buildTypes {
-    release {
-        signingConfig = signingConfigs.getByName("debug")
-    }
-}
+    buildTypes { release { isMinifyEnabled = false } }
 }
 
-kotlin {
-    compilerOptions {
-        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
-    }
-}
+kotlin { compilerOptions { jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17) } }
 
 dependencies {
-    val composeBom = platform("androidx.compose:compose-bom:2024.06.00")
-    implementation(composeBom)
-
+    implementation(project(":uwuCompose"))
     implementation("androidx.activity:activity-compose:1.9.0")
-    implementation("androidx.compose.animation:animation")
-    implementation("androidx.compose.foundation:foundation")
-    implementation("androidx.compose.foundation:foundation-layout")
-    implementation("androidx.compose.material3:material3:1.5.0-alpha16")
-    implementation("androidx.compose.material:material-icons-extended")
-    implementation("androidx.compose.runtime:runtime")
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
 }

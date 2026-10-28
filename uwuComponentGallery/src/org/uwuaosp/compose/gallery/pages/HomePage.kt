@@ -20,9 +20,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Apps
+import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.Category
 import androidx.compose.material.icons.outlined.Edit
-import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.Layers
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.outlined.Search
@@ -38,10 +38,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import org.uwuaosp.compose.gallery.GalleryScreen
 import org.uwuaosp.compose.gallery.R
-import org.uwuaosp.compose.settingslib.PreferenceRow
-import org.uwuaosp.compose.settingslib.SettingsScaffold
-import org.uwuaosp.compose.settingslib.SettingsSection
-import org.uwuaosp.compose.settingslib.SettingsSectionSpacer
+import org.uwuaosp.compose.widget.preference.PreferenceRow
+import org.uwuaosp.compose.widget.preference.SettingsSection
+import org.uwuaosp.compose.widget.preference.SettingsSectionSpacer
+import org.uwuaosp.compose.widget.scaffold.SettingsScaffold
 
 @Composable
 fun HomePage(onNavigate: (GalleryScreen) -> Unit) {
@@ -49,6 +49,17 @@ fun HomePage(onNavigate: (GalleryScreen) -> Unit) {
         title = stringResource(R.string.home_title),
         contentTopPadding = 0.dp,
         content = {
+            SettingsSection(stringResource(R.string.category_expressive)) {
+                item {
+                    PreferenceRow(
+                        title = stringResource(R.string.category_expressive),
+                        summary = stringResource(R.string.desc_expressive),
+                        icon = Icons.Outlined.AutoAwesome,
+                        onClick = { onNavigate(GalleryScreen.Expressive) },
+                    )
+                }
+            }
+            SettingsSectionSpacer()
             SettingsSection(stringResource(R.string.category_scaffold)) {
                 item {
                     PreferenceRow(

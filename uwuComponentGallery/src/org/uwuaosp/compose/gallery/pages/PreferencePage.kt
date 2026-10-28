@@ -27,10 +27,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import org.uwuaosp.compose.gallery.R
-import org.uwuaosp.compose.settingslib.PreferenceRow
-import org.uwuaosp.compose.settingslib.SettingsScaffold
-import org.uwuaosp.compose.settingslib.SettingsSection
-import org.uwuaosp.compose.settingslib.SettingsSectionSpacer
+import org.uwuaosp.compose.widget.preference.Preference
+import org.uwuaosp.compose.widget.preference.PreferenceModel
+import org.uwuaosp.compose.widget.preference.PreferenceRow
+import org.uwuaosp.compose.widget.preference.SettingsSection
+import org.uwuaosp.compose.widget.preference.SettingsSectionSpacer
+import org.uwuaosp.compose.widget.scaffold.SettingsScaffold
 
 @Composable
 fun PreferencePage(onBack: () -> Unit) {
@@ -42,10 +44,15 @@ fun PreferencePage(onBack: () -> Unit) {
         content = {
             SettingsSection(stringResource(R.string.pref_basic_title)) {
                 item {
-                    PreferenceRow(
-                        title = stringResource(R.string.pref_basic_title),
-                        summary = stringResource(R.string.pref_basic_summary),
-                        onClick = {},
+                    val preferenceTitle = stringResource(R.string.pref_basic_title)
+                    val preferenceSummary = stringResource(R.string.pref_basic_summary)
+                    Preference(
+                        model =
+                            object : PreferenceModel {
+                                override val title = preferenceTitle
+                                override val summary = { preferenceSummary }
+                                override val onClick = {}
+                            }
                     )
                 }
                 item {

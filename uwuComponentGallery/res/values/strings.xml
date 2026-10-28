@@ -192,4 +192,24 @@
     <string name="action_settings">Settings</string>
     <string name="action_info">Info</string>
     <string name="action_search">Search</string>
+    <string name="category_expressive">Material 3 Expressive</string>
+    <string name="desc_expressive">Selection, buttons, loading, and progress</string>
+    <string name="expressive_controls">Controls</string>
+    <string name="expressive_enabled">Enable controls</string>
+    <string name="expressive_enabled_summary">Compare enabled and disabled states</string>
+    <string name="expressive_checkbox">Checkbox</string>
+    <string name="expressive_selection">Single choice</string>
+    <string name="expressive_option_one">First option</string>
+    <string name="expressive_option_two">Second option</string>
+    <string name="expressive_progress">Progress and loading</string>
+    <string name="expressive_motion">Animate</string>
+    <string name="expressive_motion_summary">Control wave motion and the loading indicator</string>
+    <string name="expressive_loading">Loading indicator</string>
+    <string name="expressive_buttons">Buttons</string>
+    <string name="expressive_filled">Filled</string>
+    <string name="expressive_tonal">Tonal</string>
+    <string name="expressive_outlined">Outlined</string>
+    <string name="expressive_text">Text</string>
+    <string name="typography_emphasized">Emphasized typography</string>
+    <string name="typography_emphasized_summary">Compare the Material Expressive type scale</string>
 </resources>

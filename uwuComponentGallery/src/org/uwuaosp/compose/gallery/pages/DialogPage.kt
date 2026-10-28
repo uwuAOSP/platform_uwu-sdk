@@ -23,21 +23,21 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import org.uwuaosp.compose.gallery.R
-import org.uwuaosp.compose.settingslib.PreferenceRow
-import org.uwuaosp.compose.settingslib.SettingsSectionHeader
-import org.uwuaosp.compose.settingslib.SettingsScaffold
-import org.uwuaosp.compose.settingslib.TextInputPreferenceDialog
+import org.uwuaosp.compose.widget.editor.TextInputPreferenceDialog
+import org.uwuaosp.compose.widget.preference.PreferenceRow
+import org.uwuaosp.compose.widget.preference.SettingsSectionHeader
+import org.uwuaosp.compose.widget.scaffold.SettingsScaffold
 
 @Composable
 fun DialogPage(onBack: () -> Unit) {
-    var showDialog by remember { mutableStateOf(false) }
-    var savedValue by remember { mutableStateOf("") }
+    var showDialog by rememberSaveable { mutableStateOf(false) }
+    var savedValue by rememberSaveable { mutableStateOf("") }
 
     SettingsScaffold(
         title = stringResource(R.string.category_dialog),
@@ -46,11 +46,12 @@ fun DialogPage(onBack: () -> Unit) {
         contentTopPadding = 0.dp,
         content = {
             SettingsSectionHeader(stringResource(R.string.dialog_value_title))
-            val displayValue = if (savedValue.isEmpty()) {
-                stringResource(R.string.dialog_default_value)
-            } else {
-                savedValue
-            }
+            val displayValue =
+                if (savedValue.isEmpty()) {
+                    stringResource(R.string.dialog_default_value)
+                } else {
+                    savedValue
+                }
             Text(
                 text = stringResource(R.string.dialog_current_value, displayValue),
                 style = MaterialTheme.typography.bodyMedium,
@@ -76,9 +77,7 @@ fun DialogPage(onBack: () -> Unit) {
                 savedValue = value
                 showDialog = false
             },
-            onDismissRequest = {
-                showDialog = false
-            },
+            onDismissRequest = { showDialog = false },
         )
     }
 }

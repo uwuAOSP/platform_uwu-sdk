@@ -1,106 +1,59 @@
 /*
- * SPDX-FileCopyrightText: The uwuAOSP Project
- * SPDX-License-Identifier: Apache-2.0
+ * Copyright (C) 2026 The uwuAOSP Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.uwuaosp.compose.settingslib
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-internal enum class PreferenceGroupPosition {
-    Single,
-    Top,
-    Middle,
-    Bottom,
-}
+typealias SettingsPreferenceGroupScope =
+    org.uwuaosp.compose.widget.preference.SettingsPreferenceGroupScope
 
-internal val LocalPreferenceGroupPosition = compositionLocalOf {
-    PreferenceGroupPosition.Single
-}
-
-internal fun preferenceGroupPosition(index: Int, itemCount: Int): PreferenceGroupPosition {
-    return when {
-        itemCount <= 1 -> PreferenceGroupPosition.Single
-        index == 0 -> PreferenceGroupPosition.Top
-        index == itemCount - 1 -> PreferenceGroupPosition.Bottom
-        else -> PreferenceGroupPosition.Middle
-    }
-}
-
-class SettingsPreferenceGroupScope internal constructor(
-    private val items: MutableList<@Composable () -> Unit>,
-) {
-    fun item(visible: Boolean = true, content: @Composable () -> Unit) {
-        if (visible) items += content
-    }
-}
-
+// Compatibility entry points for applications using the original settingslib package.
 @Composable
 fun SettingsPreferenceGroup(
     modifier: Modifier = Modifier,
     content: SettingsPreferenceGroupScope.() -> Unit,
-) {
-    val items = buildList {
-        SettingsPreferenceGroupScope(this).content()
-    }
-
-    Column(modifier = modifier) {
-        items.forEachIndexed { index, item ->
-            if (index > 0) {
-                Spacer(Modifier.height(2.dp))
-            }
-            val position = preferenceGroupPosition(index, items.size)
-            CompositionLocalProvider(LocalPreferenceGroupPosition provides position) {
-                item()
-            }
-        }
-    }
-}
+) =
+    org.uwuaosp.compose.widget.preference.SettingsPreferenceGroup(
+        modifier = modifier,
+        content = content,
+    )
 
 @Composable
 fun SettingsSection(
     title: String,
     modifier: Modifier = Modifier,
     content: SettingsPreferenceGroupScope.() -> Unit,
-) {
-    Column(modifier = modifier) {
-        Text(
-            text = title,
-            color = MaterialTheme.colorScheme.primary,
-            style = MaterialTheme.typography.labelLarge,
-            modifier = Modifier.padding(start = 8.dp, top = 8.dp, bottom = 8.dp),
-        )
-        SettingsPreferenceGroup(content = content)
-    }
-}
-
-@Composable
-fun SettingsSectionSpacer() {
-    Spacer(modifier = Modifier.height(8.dp))
-}
-
-@Composable
-fun SettingsSectionHeader(
-    title: String,
-    modifier: Modifier = Modifier,
-    bottomPadding: Dp = 8.dp,
-) {
-    Text(
-        text = title,
-        color = MaterialTheme.colorScheme.primary,
-        style = MaterialTheme.typography.labelLarge,
-        modifier = modifier.padding(start = 8.dp, top = 8.dp, bottom = bottomPadding),
+) =
+    org.uwuaosp.compose.widget.preference.SettingsSection(
+        title = title,
+        modifier = modifier,
+        content = content,
     )
-}
+
+@Composable
+fun SettingsSectionSpacer() = org.uwuaosp.compose.widget.preference.SettingsSectionSpacer()
+
+@Composable
+fun SettingsSectionHeader(title: String, modifier: Modifier = Modifier, bottomPadding: Dp = 8.dp) =
+    org.uwuaosp.compose.widget.preference.SettingsSectionHeader(
+        title = title,
+        modifier = modifier,
+        bottomPadding = bottomPadding,
+    )

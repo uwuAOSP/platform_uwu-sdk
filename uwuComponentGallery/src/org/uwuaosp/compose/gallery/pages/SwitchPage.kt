@@ -23,25 +23,25 @@ import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import org.uwuaosp.compose.gallery.R
-import org.uwuaosp.compose.settingslib.MainSwitchPreference
-import org.uwuaosp.compose.settingslib.PrimarySwitchPreferenceRow
-import org.uwuaosp.compose.settingslib.SettingsScaffold
-import org.uwuaosp.compose.settingslib.SettingsSection
-import org.uwuaosp.compose.settingslib.SettingsSectionSpacer
-import org.uwuaosp.compose.settingslib.SwitchPreferenceRow
+import org.uwuaosp.compose.widget.preference.MainSwitchPreference
+import org.uwuaosp.compose.widget.preference.PrimarySwitchPreferenceRow
+import org.uwuaosp.compose.widget.preference.SettingsSection
+import org.uwuaosp.compose.widget.preference.SettingsSectionSpacer
+import org.uwuaosp.compose.widget.preference.SwitchPreferenceRow
+import org.uwuaosp.compose.widget.scaffold.SettingsScaffold
 
 @Composable
 fun SwitchPage(onBack: () -> Unit) {
-    var mainChecked by remember { mutableStateOf(true) }
-    var basicChecked by remember { mutableStateOf(false) }
-    var primaryChecked by remember { mutableStateOf(true) }
-    var iconChecked by remember { mutableStateOf(false) }
+    var mainChecked by rememberSaveable { mutableStateOf(true) }
+    var basicChecked by rememberSaveable { mutableStateOf(false) }
+    var primaryChecked by rememberSaveable { mutableStateOf(true) }
+    var iconChecked by rememberSaveable { mutableStateOf(false) }
 
     SettingsScaffold(
         title = stringResource(R.string.category_switch),

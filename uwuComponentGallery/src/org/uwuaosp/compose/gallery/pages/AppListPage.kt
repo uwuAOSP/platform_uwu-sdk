@@ -23,36 +23,34 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.foundation.layout.Column
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.Modifier
 import org.uwuaosp.compose.gallery.R
-import org.uwuaosp.compose.settingslib.AppListItem
-import org.uwuaosp.compose.settingslib.AppListScaffold
+import org.uwuaosp.compose.widget.app.AppListItem
+import org.uwuaosp.compose.widget.app.AppListScaffold
 
-private data class SampleApp(
-    val label: String,
-    val packageName: String,
-)
+private data class SampleApp(val label: String, val packageName: String)
 
 private class AppIconGenerator {
-    private val colors = listOf(
-        android.graphics.Color.parseColor("#4285F4"),
-        android.graphics.Color.parseColor("#34A853"),
-        android.graphics.Color.parseColor("#FBBC05"),
-        android.graphics.Color.parseColor("#EA4335"),
-        android.graphics.Color.parseColor("#46BDC6"),
-        android.graphics.Color.parseColor("#7B1FA2"),
-    )
-    private val paint = Paint().apply {
-        isAntiAlias = true
-        textSize = 48f
-        textAlign = Paint.Align.CENTER
-    }
+    private val colors =
+        listOf(
+            android.graphics.Color.parseColor("#4285F4"),
+            android.graphics.Color.parseColor("#34A853"),
+            android.graphics.Color.parseColor("#FBBC05"),
+            android.graphics.Color.parseColor("#EA4335"),
+            android.graphics.Color.parseColor("#46BDC6"),
+            android.graphics.Color.parseColor("#7B1FA2"),
+        )
+    private val paint =
+        Paint().apply {
+            isAntiAlias = true
+            textSize = 48f
+            textAlign = Paint.Align.CENTER
+        }
     private var index = 0
 
     fun generate(label: String): ImageBitmap {
@@ -72,25 +70,27 @@ private class AppIconGenerator {
 @Composable
 fun AppListPage(onBack: () -> Unit) {
     val context = LocalContext.current
-    val sampleApps = remember {
-        val labels = context.resources.getStringArray(R.array.sample_app_labels)
-        val packages = context.resources.getStringArray(R.array.sample_app_packages)
-        labels.zip(packages) { label, pkg -> SampleApp(label, pkg) }
-    }
+    val sampleApps =
+        remember(context) {
+            val labels = context.resources.getStringArray(R.array.sample_app_labels)
+            val packages = context.resources.getStringArray(R.array.sample_app_packages)
+            labels.zip(packages) { label, pkg -> SampleApp(label, pkg) }
+        }
 
-    var searchQuery by remember { mutableStateOf("") }
+    var searchQuery by rememberSaveable { mutableStateOf("") }
     val iconGenerator = remember { AppIconGenerator() }
 
-    val filteredApps = remember(searchQuery) {
-        if (searchQuery.isEmpty()) {
-            sampleApps
-        } else {
-            sampleApps.filter {
-                it.label.contains(searchQuery, ignoreCase = true) ||
-                    it.packageName.contains(searchQuery, ignoreCase = true)
+    val filteredApps =
+        remember(searchQuery) {
+            if (searchQuery.isEmpty()) {
+                sampleApps
+            } else {
+                sampleApps.filter {
+                    it.label.contains(searchQuery, ignoreCase = true) ||
+                        it.packageName.contains(searchQuery, ignoreCase = true)
+                }
             }
         }
-    }
 
     AppListScaffold(
         title = stringResource(R.string.applist_title),

@@ -16,40 +16,107 @@
 
 package org.uwuaosp.compose.gallery.pages
 
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Layers
+import androidx.compose.material3.FilterChip
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import org.uwuaosp.compose.gallery.R
-import org.uwuaosp.compose.settingslib.PreferenceRow
-import org.uwuaosp.compose.settingslib.SettingsScaffold
-import org.uwuaosp.compose.settingslib.SettingsSection
+import org.uwuaosp.compose.widget.preference.PreferenceRow
+import org.uwuaosp.compose.widget.preference.SettingsSection
+import org.uwuaosp.compose.widget.scaffold.SettingsAppBarScaffold
+import org.uwuaosp.compose.widget.scaffold.SettingsCollapsingAppBarScaffold
+import org.uwuaosp.compose.widget.scaffold.SettingsScaffold
+import org.uwuaosp.compose.widget.ui.SettingsContent
 
 @Composable
 fun ScaffoldPage(onBack: () -> Unit) {
-    SettingsScaffold(
-        title = stringResource(R.string.category_scaffold),
-        showBackButton = true,
-        onNavigateUp = onBack,
-        contentTopPadding = 0.dp,
-        content = {
-            SettingsSection(stringResource(R.string.scaffold_standard_title)) {
-                for (i in 1..50) {
-                    item {
-                        PreferenceRow(
-                            title = "${stringResource(R.string.scaffold_lazy_item)} $i",
-                            summary = stringResource(R.string.scaffold_demo_content),
-                            icon = Icons.Outlined.Layers,
-                            onClick = {},
-                        )
-                    }
+    var mode by rememberSaveable { mutableIntStateOf(0) }
+    val title = stringResource(R.string.category_scaffold)
+    val controls: @Composable () -> Unit = {
+        FlowRow(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.padding(bottom = 8.dp),
+        ) {
+            listOf(
+                    R.string.scaffold_standard_title,
+                    R.string.scaffold_collapsing_title,
+                    R.string.scaffold_appbar_title,
+                )
+                .forEachIndexed { index, label ->
+                    FilterChip(
+                        selected = mode == index,
+                        onClick = { mode = index },
+                        label = { androidx.compose.material3.Text(stringResource(label)) },
+                    )
+                }
+        }
+    }
+    val lazyContent: @Composable (PaddingValues) -> Unit = { padding ->
+        SettingsContent {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize().padding(padding).consumeWindowInsets(padding),
+                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(2.dp),
+            ) {
+                item(key = "controls") { controls() }
+                items(count = 50, key = { it }) { index ->
+                    ScaffoldDemoRow(index = index, itemCount = 50)
                 }
             }
-            Spacer(modifier = Modifier.height(24.dp))
-        },
+        }
+    }
+    when (mode) {
+        0 ->
+            SettingsScaffold(
+                title = title,
+                showBackButton = true,
+                onNavigateUp = onBack,
+                useCollapsingToolbar = false,
+            ) {
+                controls()
+                SettingsSection(stringResource(R.string.scaffold_standard_title)) {
+                    repeat(50) { index -> item { ScaffoldDemoRow(index) } }
+                }
+            }
+        1 ->
+            SettingsCollapsingAppBarScaffold(
+                title = title,
+                showBackButton = true,
+                onNavigateUp = onBack,
+                content = lazyContent,
+            )
+        else ->
+            SettingsAppBarScaffold(
+                title = title,
+                showBackButton = true,
+                onNavigateUp = onBack,
+                content = lazyContent,
+            )
+    }
+}
+
+@Composable
+private fun ScaffoldDemoRow(index: Int, itemCount: Int = 1) {
+    PreferenceRow(
+        title = "${stringResource(R.string.scaffold_lazy_item)} ${index + 1}",
+        summary = stringResource(R.string.scaffold_demo_content),
+        icon = Icons.Outlined.Layers,
+        index = index,
+        itemCount = itemCount,
+        onClick = {},
     )
 }

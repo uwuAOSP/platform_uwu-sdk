@@ -18,6 +18,7 @@ android_library {
     name: "uwuComposeSettingsLib",
 
     srcs: ["src/**/*.kt"],
+    resource_dirs: ["res"],
     manifest: "AndroidManifest.xml",
     sdk_version: "current",
     min_sdk_version: "26",
@@ -30,6 +31,7 @@ android_library {
         "androidx.compose.material3_material3",
         "androidx.compose.material_material-icons-extended",
         "androidx.compose.runtime_runtime",
+        "androidx.compose.runtime_runtime-saveable",
         "androidx.compose.ui_ui",
         "androidx.compose.ui_ui-graphics",
     ],

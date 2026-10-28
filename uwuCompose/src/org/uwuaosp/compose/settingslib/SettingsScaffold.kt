@@ -16,41 +16,17 @@
 
 package org.uwuaosp.compose.settingslib
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
-import androidx.compose.ui.input.nestedscroll.NestedScrollSource
-import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-/**
- * Hosts the uwu application bar without imposing a scroll container on the page content.
- *
- * This variant is intended for screens whose content owns its scroll state, such as lazy lists
- * and grids. The application bar remains responsible for status-bar insets and actions.
- */
+// Compatibility entry points for applications using the original settingslib package.
 @Composable
 fun SettingsAppBarScaffold(
     title: String,
@@ -61,32 +37,17 @@ fun SettingsAppBarScaffold(
     titleContent: (@Composable () -> Unit)? = null,
     contentTopPaddingAdjustment: Dp = 0.dp,
     content: @Composable (PaddingValues) -> Unit,
-) {
-    val statusBarPadding = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
-    val actionBarHeight = 64.dp
-    val contentPadding = PaddingValues(top = statusBarPadding + actionBarHeight + contentTopPaddingAdjustment)
-
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.surfaceContainer),
-    ) {
-        content(contentPadding)
-        SettingsToolbar(
-            title = title,
-            showBackButton = showBackButton,
-            useCollapsingToolbar = false,
-            progress = 1f,
-            toolbarHeight = actionBarHeight,
-            statusBarPadding = statusBarPadding,
-            onNavigateUp = onNavigateUp,
-            actions = actions,
-            titleContent = titleContent,
-            useWeightedTitleLayout = true,
-            containerColor = MaterialTheme.colorScheme.surfaceContainer,
-        )
-    }
-}
+) =
+    org.uwuaosp.compose.widget.scaffold.SettingsAppBarScaffold(
+        title = title,
+        modifier = modifier,
+        showBackButton = showBackButton,
+        onNavigateUp = onNavigateUp,
+        actions = actions,
+        titleContent = titleContent,
+        contentTopPaddingAdjustment = contentTopPaddingAdjustment,
+        content = content,
+    )
 
 @Composable
 fun SettingsScaffold(
@@ -99,87 +60,15 @@ fun SettingsScaffold(
     startCollapsed: Boolean = true,
     contentTopPadding: Dp = 0.dp,
     content: @Composable ColumnScope.() -> Unit,
-) {
-    val density = LocalDensity.current
-    val statusBarPadding = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
-    val navigationBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
-    val actionBarHeight = actionBarSize()
-    val expandedToolbarHeight = 179.dp
-    val collapseRangePx = with(density) {
-        (expandedToolbarHeight - actionBarHeight).coerceAtLeast(0.dp).toPx()
-    }
-    var toolbarOffsetPx by remember(useCollapsingToolbar, startCollapsed, collapseRangePx) {
-        mutableFloatStateOf(
-            if (useCollapsingToolbar && startCollapsed) {
-                collapseRangePx
-            } else {
-                0f
-            }
-        )
-    }
-    toolbarOffsetPx = toolbarOffsetPx.coerceIn(0f, collapseRangePx)
-
-    val nestedScrollConnection = remember(useCollapsingToolbar, collapseRangePx) {
-        object : NestedScrollConnection {
-            override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
-                if (!useCollapsingToolbar || available.y >= 0f) return Offset.Zero
-                val previousOffset = toolbarOffsetPx
-                toolbarOffsetPx = (toolbarOffsetPx - available.y).coerceIn(0f, collapseRangePx)
-                return Offset(x = 0f, y = previousOffset - toolbarOffsetPx)
-            }
-
-            override fun onPostScroll(
-                consumed: Offset,
-                available: Offset,
-                source: NestedScrollSource,
-            ): Offset {
-                if (!useCollapsingToolbar || available.y <= 0f) return Offset.Zero
-                val previousOffset = toolbarOffsetPx
-                toolbarOffsetPx = (toolbarOffsetPx - available.y).coerceIn(0f, collapseRangePx)
-                return Offset(x = 0f, y = previousOffset - toolbarOffsetPx)
-            }
-        }
-    }
-    val currentToolbarHeight = if (useCollapsingToolbar) {
-        with(density) { (expandedToolbarHeight.toPx() - toolbarOffsetPx).toDp() }
-    } else {
-        actionBarHeight
-    }
-    val progress = if (collapseRangePx > 0f) {
-        (toolbarOffsetPx / collapseRangePx).coerceIn(0f, 1f)
-    } else {
-        1f
-    }
-
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.surfaceContainer)
-            .nestedScroll(nestedScrollConnection)
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(top = statusBarPadding + currentToolbarHeight)
-                .padding(
-                    start = 16.dp,
-                    top = contentTopPadding,
-                    end = 16.dp,
-                    bottom = 18.dp + navigationBarPadding,
-                )
-        ) {
-            content()
-        }
-        SettingsToolbar(
-            title = title,
-            showBackButton = showBackButton,
-            useCollapsingToolbar = useCollapsingToolbar,
-            progress = progress,
-            toolbarHeight = currentToolbarHeight,
-            statusBarPadding = statusBarPadding,
-            onNavigateUp = onNavigateUp,
-            actions = actions,
-        )
-    }
-}
+) =
+    org.uwuaosp.compose.widget.scaffold.SettingsScaffold(
+        title = title,
+        modifier = modifier,
+        showBackButton = showBackButton,
+        onNavigateUp = onNavigateUp,
+        actions = actions,
+        useCollapsingToolbar = useCollapsingToolbar,
+        startCollapsed = startCollapsed,
+        contentTopPadding = contentTopPadding,
+        content = content,
+    )

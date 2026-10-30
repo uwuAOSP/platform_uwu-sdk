@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@file:OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 
 package org.uwuaosp.compose.widget.app
 
@@ -35,9 +35,17 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LoadingIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SearchBarDefaults
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -49,7 +57,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import org.uwuaosp.compose.framework.theme.SettingsDimension
-import org.uwuaosp.compose.widget.editor.SettingsSearchField
 import org.uwuaosp.compose.widget.preference.CustomPreferenceRow
 import org.uwuaosp.compose.widget.scaffold.SettingsPageScaffold
 import org.uwuaosp.compose.widget.ui.SettingsContent
@@ -62,13 +69,31 @@ fun AppListSearchBar(
     onQueryChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    SettingsSearchField(
-        query = query,
-        onQueryChange = onQueryChange,
-        placeholder = searchPlaceholder,
-        clearContentDescription = clearSearchContentDescription,
+    Surface(
         modifier = modifier,
-    )
+        shape = RoundedCornerShape(28.dp),
+        color = MaterialTheme.colorScheme.surfaceContainerHigh,
+    ) {
+        SearchBarDefaults.InputField(
+            query = query,
+            onQueryChange = onQueryChange,
+            onSearch = {},
+            expanded = false,
+            onExpandedChange = {},
+            placeholder = { Text(searchPlaceholder) },
+            leadingIcon = { Icon(Icons.Outlined.Search, contentDescription = null) },
+            trailingIcon = if (query.isNotEmpty()) {
+                {
+                    IconButton(onClick = { onQueryChange("") }) {
+                        Icon(Icons.Outlined.Close, contentDescription = clearSearchContentDescription)
+                    }
+                }
+            } else {
+                null
+            },
+            modifier = Modifier.fillMaxWidth(),
+        )
+    }
 }
 
 @Composable

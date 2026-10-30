@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2026 The uwuAOSP Project
+ * SPDX-FileCopyrightText: The uwuAOSP Project
  * SPDX-License-Identifier: Apache-2.0
  */
 

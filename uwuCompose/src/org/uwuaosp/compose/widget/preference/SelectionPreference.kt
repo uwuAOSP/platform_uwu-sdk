@@ -57,11 +57,15 @@ fun RadioPreferenceRow(
     modifier: Modifier = Modifier,
     summary: String? = null,
     enabled: Boolean = true,
+    index: Int = 0,
+    itemCount: Int = 1,
 ) {
     PreferenceSurface(
         modifier = modifier.semantics { this.selected = selected },
         enabled = enabled,
-        position = LocalPreferenceGroupPosition.current,
+        position =
+            if (itemCount > 1) preferenceGroupPosition(index, itemCount)
+            else LocalPreferenceGroupPosition.current,
         onClick = onSelect,
         role = Role.RadioButton,
     ) {

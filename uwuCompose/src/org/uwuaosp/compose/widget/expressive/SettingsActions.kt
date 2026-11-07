@@ -46,6 +46,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
@@ -59,6 +60,7 @@ fun SettingsConnectedButtonGroup(
     onSelect: (Int) -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    leadingIcon: (@Composable (Int) -> Unit)? = null,
 ) {
     FlowRow(
         modifier = modifier.selectableGroup(),
@@ -80,8 +82,9 @@ fun SettingsConnectedButtonGroup(
                         else -> ButtonGroupDefaults.connectedMiddleButtonShapes()
                     },
             ) {
-                if (selectedIndex == index) {
-                    Icon(Icons.Filled.Check, contentDescription = null)
+                if (leadingIcon != null || selectedIndex == index) {
+                    if (leadingIcon != null) leadingIcon(index)
+                    else Icon(Icons.Filled.Check, contentDescription = null)
                     androidx.compose.foundation.layout.Spacer(
                         Modifier.size(ToggleButtonDefaults.IconSpacing)
                     )
@@ -158,6 +161,7 @@ fun SettingsSplitButton(
     style: SettingsSplitButtonStyle = SettingsSplitButtonStyle.Filled,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    leadingIcon: ImageVector? = null,
     menuContent: @Composable ColumnScope.() -> Unit,
 ) {
     val height =
@@ -169,6 +173,16 @@ fun SettingsSplitButton(
             SettingsButtonSize.ExtraLarge -> SplitButtonDefaults.ExtraLargeContainerHeight
         }
     val leadingContent: @Composable RowScope.() -> Unit = {
+        if (leadingIcon != null) {
+            Icon(
+                leadingIcon,
+                contentDescription = null,
+                modifier = Modifier.size(SplitButtonDefaults.leadingButtonIconSizeFor(height)),
+            )
+            androidx.compose.foundation.layout.Spacer(
+                Modifier.size(ButtonDefaults.iconSpacingFor(height))
+            )
+        }
         Text(label, style = ButtonDefaults.textStyleFor(height))
     }
     val trailingContent: @Composable RowScope.() -> Unit = {

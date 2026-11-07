@@ -64,18 +64,20 @@ fun SettingsMenuGroup(
 @Composable
 fun SettingsMenuItem(
     text: String,
-    selected: Boolean,
+    selected: Boolean = false,
     onClick: () -> Unit,
     index: Int,
     itemCount: Int,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    leadingIcon: (@Composable () -> Unit)? = null,
 ) {
     DropdownMenuItem(
         selected = selected,
         onClick = onClick,
         text = { Text(text) },
         shapes = MenuDefaults.itemShape(index, itemCount),
+        leadingIcon = leadingIcon,
         selectedLeadingIcon = {
             Icon(
                 Icons.Filled.Check,

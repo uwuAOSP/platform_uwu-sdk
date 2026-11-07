@@ -7,8 +7,6 @@ package org.uwuaosp.compose.widget.scaffold
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
@@ -16,26 +14,25 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.ripple
-import androidx.compose.ui.res.stringResource
-import org.uwuaosp.compose.R
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.addPathNodes
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import org.uwuaosp.compose.R
 
 private val ExpressiveBackIcon = ImageVector.Builder(
     name = "SettingsLibExpressiveBack",
@@ -59,6 +56,7 @@ private val ExpressiveBackIcon = ImageVector.Builder(
     fill = SolidColor(Color.White),
 ).build()
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SettingsToolbarActionButton(
     imageVector: ImageVector,
@@ -70,16 +68,17 @@ fun SettingsToolbarActionButton(
     containerSize: Dp = 40.dp,
 ) {
     Box(modifier.size(buttonSize), contentAlignment = Alignment.Center) {
-        val interactionSource = remember { MutableInteractionSource() }
-        Box(
-            Modifier.size(containerSize)
-                .clip(RoundedCornerShape(100.dp))
-                .background(MaterialTheme.colorScheme.surfaceContainerHighest)
-                .clickable(interactionSource = interactionSource, indication = ripple(), onClick = onClick),
-            contentAlignment = Alignment.Center,
+        FilledTonalIconButton(
+            onClick = onClick,
+            modifier = Modifier.size(containerSize),
+            shapes = IconButtonDefaults.shapes(),
+            colors =
+                IconButtonDefaults.filledTonalIconButtonColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                ),
         ) {
-            Icon(imageVector, contentDescription, tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.size(iconSize))
+            Icon(imageVector, contentDescription, modifier = Modifier.size(iconSize))
         }
     }
 }
@@ -97,8 +96,10 @@ internal fun SettingsToolbar(
     titleContent: (@Composable () -> Unit)? = null,
     useWeightedTitleLayout: Boolean = false,
     containerColor: Color = MaterialTheme.colorScheme.surfaceContainer,
+    navigationIcon: (@Composable () -> Unit)? = null,
 ) {
     val actionBarHeight = actionBarSize()
+    val hasNavigationIcon = showBackButton || navigationIcon != null
     val fontFamilies = rememberSettingsFontFamilies()
     val titleProgress = FastOutSlowInEasing.transform(progress.coerceIn(0f, 1f))
     Box(
@@ -114,7 +115,12 @@ internal fun SettingsToolbar(
                     .padding(start = 24.dp, end = 24.dp, bottom = 28.dp))
         }
         Box(Modifier.fillMaxWidth().height(actionBarHeight).background(containerColor))
-        if (showBackButton) {
+        if (navigationIcon != null) {
+            Box(Modifier.align(Alignment.TopStart).padding(start = 15.dp).height(actionBarHeight),
+                contentAlignment = Alignment.Center) {
+                navigationIcon()
+            }
+        } else if (showBackButton) {
             SettingsToolbarActionButton(ExpressiveBackIcon, stringResource(R.string.settings_navigate_up), onNavigateUp,
                 modifier = Modifier.align(Alignment.TopStart).padding(start = 15.dp).height(actionBarHeight),
                 iconSize = 16.dp)
@@ -122,7 +128,7 @@ internal fun SettingsToolbar(
         if (useWeightedTitleLayout) {
             Row(Modifier.align(Alignment.TopStart).fillMaxWidth().height(actionBarHeight).padding(end = 8.dp),
                 verticalAlignment = Alignment.CenterVertically) {
-                Box(Modifier.weight(1f).padding(start = if (showBackButton) 88.dp else 24.dp)
+                Box(Modifier.weight(1f).padding(start = if (hasNavigationIcon) 88.dp else 24.dp)
                     .alpha(if (useCollapsingToolbar) titleProgress else 1f),
                     contentAlignment = Alignment.CenterStart) {
                     titleContent?.invoke() ?: Text(title, color = MaterialTheme.colorScheme.onSurface,
@@ -138,7 +144,7 @@ internal fun SettingsToolbar(
             Row(Modifier.align(Alignment.TopEnd).height(actionBarHeight).padding(end = 8.dp),
                 verticalAlignment = Alignment.CenterVertically, content = actions)
             Box(Modifier.align(Alignment.TopStart).height(actionBarHeight)
-                .padding(start = if (showBackButton) 88.dp else 24.dp, end = 24.dp)
+                .padding(start = if (hasNavigationIcon) 88.dp else 24.dp, end = 24.dp)
                 .alpha(if (useCollapsingToolbar) titleProgress else 1f),
                 contentAlignment = Alignment.CenterStart) {
                 Text(title, color = MaterialTheme.colorScheme.onSurface,

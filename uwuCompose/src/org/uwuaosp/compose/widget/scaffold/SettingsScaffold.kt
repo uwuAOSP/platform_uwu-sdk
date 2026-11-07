@@ -65,6 +65,8 @@ fun SettingsAppBarScaffold(
     actions: @Composable RowScope.() -> Unit = {},
     titleContent: (@Composable () -> Unit)? = null,
     contentTopPaddingAdjustment: Dp = 0.dp,
+    navigationIcon: (@Composable () -> Unit)? = null,
+    header: @Composable () -> Unit = {},
     content: @Composable (PaddingValues) -> Unit,
 ) {
     SettingsPageScaffold(
@@ -75,6 +77,8 @@ fun SettingsAppBarScaffold(
         actions = actions,
         titleContent = titleContent,
         collapsing = false,
+        navigationIcon = navigationIcon,
+        header = header,
     ) { padding ->
         val direction = androidx.compose.ui.platform.LocalLayoutDirection.current
         content(
@@ -143,6 +147,7 @@ internal fun SettingsPageScaffold(
     expandedToolbarHeight: Dp = 200.dp,
     containerColor: Color = MaterialTheme.colorScheme.surfaceContainer,
     header: @Composable () -> Unit = {},
+    navigationIcon: (@Composable () -> Unit)? = null,
     content: @Composable (PaddingValues) -> Unit,
 ) {
     val context = LocalContext.current
@@ -221,13 +226,14 @@ internal fun SettingsPageScaffold(
                 titleContent = titleContent,
                 useWeightedTitleLayout = true,
                 containerColor = containerColor,
+                navigationIcon = navigationIcon,
             )
             Box(Modifier.fillMaxWidth().onSizeChanged { headerHeightPx = it.height }) { header() }
         }
     }
 }
 
-private tailrec fun Context.findSettingsActivity(): Activity? =
+internal tailrec fun Context.findSettingsActivity(): Activity? =
     when (this) {
         is Activity -> this
         is ContextWrapper -> if (baseContext !== this) baseContext.findSettingsActivity() else null

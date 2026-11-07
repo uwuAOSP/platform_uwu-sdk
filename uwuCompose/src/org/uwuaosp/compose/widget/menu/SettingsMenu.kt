@@ -8,6 +8,9 @@
 package org.uwuaosp.compose.widget.menu
 
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -45,9 +48,15 @@ fun SettingsMenuGroup(
     modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit,
 ) {
-    DropdownMenuGroup(shapes = MenuDefaults.groupShape(index, groupCount), modifier = modifier) {
+    DropdownMenuGroup(
+        shapes = MenuDefaults.groupShape(index, groupCount),
+        modifier = modifier.fillMaxWidth(),
+    ) {
         title?.let { MenuDefaults.Label { Text(it) } }
         content()
+    }
+    if (index < groupCount - 1) {
+        Spacer(Modifier.height(MenuDefaults.GroupSpacing))
     }
 }
 

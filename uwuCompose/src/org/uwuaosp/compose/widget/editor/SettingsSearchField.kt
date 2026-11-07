@@ -35,6 +35,7 @@ fun SettingsSearchField(
     leadingIcon: ImageVector = Icons.Outlined.Search,
     trailingContent: (@Composable RowScope.() -> Unit)? = null,
 ) {
+    val containerColor = SearchBarDefaults.collapsedContainedSearchBarColor
     SearchBarDefaults.InputField(
         query = query,
         onQueryChange = onQueryChange,
@@ -44,6 +45,13 @@ fun SettingsSearchField(
         modifier = modifier.fillMaxWidth(),
         placeholder = { Text(placeholder) },
         leadingIcon = { Icon(leadingIcon, contentDescription = null) },
+        // Inline filtering has no outer search container to supply the background.
+        colors =
+            SearchBarDefaults.inputFieldColors(
+                focusedContainerColor = containerColor,
+                unfocusedContainerColor = containerColor,
+                disabledContainerColor = containerColor,
+            ),
         trailingIcon =
             if (trailingContent != null) {
                 { Row(content = trailingContent) }

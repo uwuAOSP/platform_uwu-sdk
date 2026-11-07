@@ -8,7 +8,6 @@ package org.uwuaosp.compose.widget.ui
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
@@ -63,11 +62,4 @@ fun SettingsHomepageIcon(
 @Composable
 private fun SettingsHomepageIconBackground(color: Color) {
     Box(modifier = Modifier.size(HomepageIconSize).clip(HomepageIconShape).background(color))
-}
-
-@Composable
-internal fun PreferenceLeadingIcon(icon: (@Composable () -> Unit)?) {
-    if (icon == null) return
-    icon()
-    Spacer(modifier = Modifier.size(width = 16.dp, height = 1.dp))
 }

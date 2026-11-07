@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+@file:OptIn(androidx.compose.material3.ExperimentalMaterial3ExpressiveApi::class)
+
 package org.uwuaosp.compose.wizard
 
-import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -28,7 +28,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -46,41 +45,41 @@ fun WizardBrandPage(
 ) {
     var visible by remember { mutableStateOf(!animateContent) }
     LaunchedEffect(animateContent) { visible = true }
-    val contentAlpha by animateFloatAsState(
-        targetValue = if (visible) 1f else 0f,
-        animationSpec = tween(420),
-        label = "wizardBrandAlpha",
-    )
-    val contentScale by animateFloatAsState(
-        targetValue = if (visible) 1f else 0.96f,
-        animationSpec = tween(520, easing = FastOutSlowInEasing),
-        label = "wizardBrandScale",
-    )
+    val contentAlpha by
+        animateFloatAsState(
+            targetValue = if (visible) 1f else 0f,
+            animationSpec = MaterialTheme.motionScheme.defaultEffectsSpec(),
+            label = "wizardBrandAlpha",
+        )
+    val contentScale by
+        animateFloatAsState(
+            targetValue = if (visible) 1f else 0.96f,
+            animationSpec = MaterialTheme.motionScheme.defaultSpatialSpec(),
+            label = "wizardBrandScale",
+        )
     Scaffold(
         modifier = modifier.fillMaxSize(),
-        containerColor = MaterialTheme.colorScheme.background,
+        containerColor = MaterialTheme.colorScheme.surface,
         bottomBar = { WizardBottomBar(actionButton, dismissButton) },
     ) { innerPadding ->
         Surface(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding),
-            color = MaterialTheme.colorScheme.background,
+            modifier = Modifier.fillMaxSize().padding(innerPadding),
+            color = MaterialTheme.colorScheme.surface,
         ) {
             Column(modifier = Modifier.fillMaxSize()) {
                 Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxWidth()
-                        .padding(
-                            horizontal = BrandPageHorizontalPadding,
-                            vertical = BrandPageVerticalPadding,
-                        )
-                        .graphicsLayer {
-                            alpha = contentAlpha
-                            scaleX = contentScale
-                            scaleY = contentScale
-                        },
+                    modifier =
+                        Modifier.weight(1f)
+                            .fillMaxWidth()
+                            .padding(
+                                horizontal = BrandPageHorizontalPadding,
+                                vertical = BrandPageVerticalPadding,
+                            )
+                            .graphicsLayer {
+                                alpha = contentAlpha
+                                scaleX = contentScale
+                                scaleY = contentScale
+                            },
                     contentAlignment = Alignment.Center,
                 ) {
                     illustration()
@@ -88,35 +87,34 @@ fun WizardBrandPage(
                 Text(
                     text = title,
                     style = MaterialTheme.typography.displayLarge,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    fontWeight = FontWeight.SemiBold,
-                    modifier = Modifier
-                        .padding(
-                            start = BrandPageHorizontalPadding,
-                            end = BrandPageHorizontalPadding,
-                            bottom = if (subtitle == null) 30.dp else 10.dp,
-                        )
-                        .graphicsLayer { alpha = contentAlpha },
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier =
+                        Modifier.padding(
+                                start = BrandPageHorizontalPadding,
+                                end = BrandPageHorizontalPadding,
+                                bottom = if (subtitle == null) 30.dp else 10.dp,
+                            )
+                            .graphicsLayer { alpha = contentAlpha },
                 )
                 if (subtitle != null) {
                     Text(
                         text = subtitle,
                         style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.68f),
-                        modifier = Modifier
-                            .padding(
-                                start = BrandPageHorizontalPadding,
-                                end = BrandPageHorizontalPadding,
-                                bottom = 30.dp,
-                            )
-                            .graphicsLayer { alpha = contentAlpha },
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier =
+                            Modifier.padding(
+                                    start = BrandPageHorizontalPadding,
+                                    end = BrandPageHorizontalPadding,
+                                    bottom = 30.dp,
+                                )
+                                .graphicsLayer { alpha = contentAlpha },
                     )
                 }
                 Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(56.dp)
-                        .padding(horizontal = BrandPageHorizontalPadding),
+                    modifier =
+                        Modifier.fillMaxWidth()
+                            .height(56.dp)
+                            .padding(horizontal = BrandPageHorizontalPadding),
                     contentAlignment = Alignment.TopCenter,
                 ) {
                     assistContent?.invoke()

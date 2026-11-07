@@ -10,47 +10,44 @@ package org.uwuaosp.compose.widget.scaffold
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.consumeWindowInsets
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.FilledTonalIconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.LargeFlexibleTopAppBar
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
-import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import org.uwuaosp.compose.R
 import org.uwuaosp.compose.framework.theme.SettingsDimension
 import org.uwuaosp.compose.widget.ui.SettingsContent
 
@@ -107,7 +104,6 @@ fun SettingsScaffold(
         actions = actions,
         collapsing = useCollapsingToolbar,
         startCollapsed = startCollapsed,
-        expandedToolbarHeight = 179.dp,
     ) { padding ->
         Column(
             Modifier.fillMaxSize()
@@ -128,7 +124,7 @@ fun SettingsScaffold(
     }
 }
 
-/** Shares the custom collapsing app-bar behavior and inset policy across settings pages. */
+/** Material owns the app-bar measurement, scrolling, fling, and restored scroll state. */
 @Composable
 internal fun SettingsPageScaffold(
     title: String,
@@ -139,85 +135,66 @@ internal fun SettingsPageScaffold(
     titleContent: (@Composable () -> Unit)? = null,
     collapsing: Boolean = true,
     startCollapsed: Boolean = false,
-    expandedToolbarHeight: Dp = 200.dp,
-    containerColor: Color = MaterialTheme.colorScheme.surfaceContainer,
+    expandedToolbarHeight: Dp = TopAppBarDefaults.LargeFlexibleAppBarWithoutSubtitleExpandedHeight,
+    containerColor: Color = MaterialTheme.colorScheme.surface,
     header: @Composable () -> Unit = {},
     content: @Composable (PaddingValues) -> Unit,
 ) {
     val context = LocalContext.current
-    val density = LocalDensity.current
     LaunchedEffect(context, title) { context.findSettingsActivity()?.title = title }
-    val statusBarPadding = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
-    val navigationBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
-    val collapsedHeight = if (collapsing) actionBarSize() else 64.dp
-    val collapseRange =
-        with(density) { (expandedToolbarHeight - collapsedHeight).coerceAtLeast(0.dp).toPx() }
-    var toolbarOffsetPx by remember(collapsing, startCollapsed, collapseRange) {
-        mutableFloatStateOf(if (collapsing && startCollapsed) collapseRange else 0f)
-    }
-    toolbarOffsetPx = toolbarOffsetPx.coerceIn(0f, collapseRange)
-    val nestedConnection = remember(collapsing, collapseRange) {
-        object : NestedScrollConnection {
-            override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
-                if (!collapsing || available.y >= 0f) return Offset.Zero
-                val previous = toolbarOffsetPx
-                toolbarOffsetPx = (toolbarOffsetPx - available.y).coerceIn(0f, collapseRange)
-                return Offset(0f, previous - toolbarOffsetPx)
-            }
-
-            override fun onPostScroll(
-                consumed: Offset,
-                available: Offset,
-                source: NestedScrollSource,
-            ): Offset {
-                if (!collapsing || available.y <= 0f) return Offset.Zero
-                val previous = toolbarOffsetPx
-                toolbarOffsetPx = (toolbarOffsetPx - available.y).coerceIn(0f, collapseRange)
-                return Offset(0f, previous - toolbarOffsetPx)
-            }
+    val expandedHeight =
+        expandedToolbarHeight.coerceAtLeast(TopAppBarDefaults.LargeAppBarCollapsedHeight)
+    val offsetLimit =
+        with(LocalDensity.current) {
+            -(expandedHeight - TopAppBarDefaults.LargeAppBarCollapsedHeight).toPx()
         }
-    }
-    val toolbarHeight = if (collapsing) {
-        with(density) { (expandedToolbarHeight.toPx() - toolbarOffsetPx).toDp() }
-    } else {
-        collapsedHeight
-    }
-    val progress =
-        if (!collapsing || collapseRange <= 0f) 1f
-        else (toolbarOffsetPx / collapseRange).coerceIn(0f, 1f)
-    var headerHeightPx by remember { mutableIntStateOf(0) }
-    val headerHeight = with(density) { headerHeightPx.toDp() }
-    val direction = LocalLayoutDirection.current
-    val safeDrawingPadding = WindowInsets.safeDrawing.asPaddingValues()
-    val contentPadding =
-        PaddingValues(
-            start = safeDrawingPadding.calculateStartPadding(direction),
-            top = statusBarPadding + toolbarHeight + headerHeight,
-            end = safeDrawingPadding.calculateEndPadding(direction),
-            bottom = navigationBarPadding,
+    val state =
+        rememberTopAppBarState(
+            initialHeightOffsetLimit = offsetLimit,
+            initialHeightOffset = if (collapsing && startCollapsed) offsetLimit else 0f,
         )
-    Box(
-        modifier.fillMaxSize().background(containerColor)
-            .then(if (collapsing) Modifier.nestedScroll(nestedConnection) else Modifier),
-    ) {
-        content(contentPadding)
-        Column {
-            SettingsToolbar(
-                title = title,
-                showBackButton = showBackButton,
-                useCollapsingToolbar = collapsing,
-                progress = progress,
-                toolbarHeight = toolbarHeight,
-                statusBarPadding = statusBarPadding,
-                onNavigateUp = onNavigateUp,
-                actions = actions,
-                titleContent = titleContent,
-                useWeightedTitleLayout = true,
-                containerColor = containerColor,
-            )
-            Box(Modifier.fillMaxWidth().onSizeChanged { headerHeightPx = it.height }) { header() }
+    val behavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(state)
+    val barColors = TopAppBarDefaults.topAppBarColors(containerColor = containerColor)
+    val navigation: @Composable () -> Unit = {
+        if (showBackButton) {
+            FilledTonalIconButton(onClick = onNavigateUp, shapes = IconButtonDefaults.shapes()) {
+                Icon(
+                    Icons.AutoMirrored.Filled.ArrowBack,
+                    stringResource(R.string.settings_navigate_up),
+                )
+            }
         }
     }
+    val titleSlot: @Composable () -> Unit = titleContent ?: { Text(title) }
+    Scaffold(
+        modifier =
+            if (collapsing) modifier.nestedScroll(behavior.nestedScrollConnection) else modifier,
+        containerColor = containerColor,
+        contentWindowInsets = WindowInsets.safeDrawing,
+        topBar = {
+            Column {
+                if (collapsing) {
+                    LargeFlexibleTopAppBar(
+                        title = titleSlot,
+                        navigationIcon = navigation,
+                        actions = actions,
+                        expandedHeight = expandedHeight,
+                        colors = barColors,
+                        scrollBehavior = behavior,
+                    )
+                } else {
+                    TopAppBar(
+                        title = titleSlot,
+                        navigationIcon = navigation,
+                        actions = actions,
+                        colors = barColors,
+                    )
+                }
+                header()
+            }
+        },
+        content = content,
+    )
 }
 
 private tailrec fun Context.findSettingsActivity(): Activity? =

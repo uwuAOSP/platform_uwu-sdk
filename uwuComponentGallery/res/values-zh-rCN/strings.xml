@@ -198,4 +198,17 @@
     <string name="glif_continue">继续</string>
     <string name="glif_done">完成</string>
     <string name="glif_not_now">暂不设置</string>
+    <string name="category_menus">Expressive 菜单</string>
+    <string name="desc_menus">单选、分组选择与禁用选项</string>
+    <string name="menu_single_choice">单选菜单</string>
+    <string name="menu_grouped_choice">独立设置读取与写入</string>
+    <string name="menu_allow">允许</string>
+    <string name="menu_ask">每次询问</string>
+    <string name="menu_deny">不允许</string>
+    <string name="menu_read">读取</string>
+    <string name="menu_write">写入</string>
+    <string name="menu_enabled">启用单选菜单</string>
+    <string name="menu_disabled_example">菜单中的第三个选项已禁用</string>
+    <string name="menu_long_option">较长的选项文字会自动换行，并保留选中状态</string>
+    <string name="menu_group_summary">读取：%1$s - 写入：%2$s</string>
 </resources>

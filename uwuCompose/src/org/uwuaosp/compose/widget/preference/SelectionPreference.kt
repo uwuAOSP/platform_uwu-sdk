@@ -5,13 +5,21 @@
 
 package org.uwuaosp.compose.widget.preference
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.RadioButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.unit.dp
+import org.uwuaosp.compose.framework.theme.SettingsDimension
 
-/** The list item owns the action; the checkbox only displays its state. */
+/** Owns the selection target; the Material checkbox only draws its current state. */
 @Composable
 fun CheckboxPreferenceRow(
     title: String,
@@ -21,19 +29,23 @@ fun CheckboxPreferenceRow(
     summary: String? = null,
     enabled: Boolean = true,
 ) {
-    PreferenceItem(
+    PreferenceSurface(
         modifier = modifier,
         enabled = enabled,
         position = LocalPreferenceGroupPosition.current,
         checked = checked,
         onCheckedChange = onCheckedChange,
         role = Role.Checkbox,
-        supportingContent = summary?.let { { PreferenceSummary(it) } },
-        trailingContent = {
-            Checkbox(checked = checked, onCheckedChange = null, enabled = enabled)
-        },
-        content = { PreferenceTitle(title) },
-    )
+    ) {
+        Column(
+            Modifier.weight(1f).padding(vertical = SettingsDimension.preferenceVerticalPadding)
+        ) {
+            PreferenceTitle(title)
+            summary?.let { PreferenceSummary(it) }
+        }
+        Spacer(Modifier.width(16.dp))
+        Checkbox(checked = checked, onCheckedChange = null, enabled = enabled)
+    }
 }
 
 /** Place sibling rows in a selectableGroup owned by the caller. */
@@ -46,15 +58,20 @@ fun RadioPreferenceRow(
     summary: String? = null,
     enabled: Boolean = true,
 ) {
-    PreferenceItem(
-        modifier = modifier,
+    PreferenceSurface(
+        modifier = modifier.semantics { this.selected = selected },
         enabled = enabled,
         position = LocalPreferenceGroupPosition.current,
-        selected = selected,
         onClick = onSelect,
         role = Role.RadioButton,
-        supportingContent = summary?.let { { PreferenceSummary(it) } },
-        trailingContent = { RadioButton(selected = selected, onClick = null, enabled = enabled) },
-        content = { PreferenceTitle(title) },
-    )
+    ) {
+        Column(
+            Modifier.weight(1f).padding(vertical = SettingsDimension.preferenceVerticalPadding)
+        ) {
+            PreferenceTitle(title)
+            summary?.let { PreferenceSummary(it) }
+        }
+        Spacer(Modifier.width(16.dp))
+        RadioButton(selected = selected, onClick = null, enabled = enabled)
+    }
 }

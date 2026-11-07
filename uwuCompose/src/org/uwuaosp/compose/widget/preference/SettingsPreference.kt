@@ -3,29 +3,38 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-@file:OptIn(androidx.compose.material3.ExperimentalMaterial3ExpressiveApi::class)
-
 package org.uwuaosp.compose.widget.preference
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material3.Icon
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.ListItemDefaults
-import androidx.compose.material3.SegmentedListItem
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import org.uwuaosp.compose.framework.theme.SettingsDimension
+import org.uwuaosp.compose.widget.ui.PreferenceLeadingIcon
 
 @Composable
 fun PreferenceRow(
@@ -41,103 +50,32 @@ fun PreferenceRow(
     showSummary: Boolean = true,
     onClick: (() -> Unit)? = null,
 ) {
-    PreferenceItem(
+    PreferenceSurface(
         modifier = modifier,
         enabled = enabled,
         position =
-            if (itemCount > 1) preferenceGroupPosition(index, itemCount)
-            else LocalPreferenceGroupPosition.current,
+            if (itemCount > 1) {
+                preferenceGroupPosition(index, itemCount)
+            } else {
+                LocalPreferenceGroupPosition.current
+            },
         onClick = onClick,
-        leadingContent =
-            iconContent
-                ?: if (icon != null) {
-                    { PreferenceIcon(icon) }
-                } else null,
-        supportingContent =
+    ) {
+        if (iconContent != null) {
+            PreferenceLeadingIcon(iconContent)
+        } else {
+            PreferenceIcon(icon)
+        }
+        Column(
+            modifier =
+                Modifier.weight(1f).padding(vertical = SettingsDimension.preferenceVerticalPadding)
+        ) {
+            PreferenceTitle(title)
             if (showSummary && summary != null) {
-                { PreferenceSummary(summary) }
-            } else null,
-        trailingContent = trailingContent?.let { { Row(content = it) } },
-        content = { PreferenceTitle(title) },
-    )
-}
-
-/** Uses Material slots so line count, disabled colors, and selection are owned by the list item. */
-@Composable
-internal fun PreferenceItem(
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    position: PreferenceGroupPosition = PreferenceGroupPosition.Single,
-    onClick: (() -> Unit)? = null,
-    checked: Boolean? = null,
-    onCheckedChange: ((Boolean) -> Unit)? = null,
-    selected: Boolean? = null,
-    role: Role? = null,
-    leadingContent: (@Composable () -> Unit)? = null,
-    supportingContent: (@Composable () -> Unit)? = null,
-    trailingContent: (@Composable () -> Unit)? = null,
-    content: @Composable () -> Unit,
-) {
-    val shapes = preferenceShapes(position)
-    val colors = ListItemDefaults.segmentedColors()
-    val semanticsModifier =
-        modifier
-            .fillMaxWidth()
-            .then(if (role != null) Modifier.semantics { this.role = role } else Modifier)
-    when {
-        checked != null && onCheckedChange != null ->
-            SegmentedListItem(
-                checked = checked,
-                onCheckedChange = onCheckedChange,
-                shapes = shapes,
-                enabled = enabled,
-                modifier = semanticsModifier,
-                leadingContent = leadingContent,
-                supportingContent = supportingContent,
-                trailingContent = trailingContent,
-                content = content,
-            )
-        selected != null && onClick != null ->
-            SegmentedListItem(
-                selected = selected,
-                onClick = onClick,
-                shapes = shapes,
-                enabled = enabled,
-                modifier = semanticsModifier,
-                leadingContent = leadingContent,
-                supportingContent = supportingContent,
-                trailingContent = trailingContent,
-                content = content,
-            )
-        onClick != null ->
-            SegmentedListItem(
-                onClick = onClick,
-                shapes = shapes,
-                enabled = enabled,
-                modifier = semanticsModifier,
-                leadingContent = leadingContent,
-                supportingContent = supportingContent,
-                trailingContent = trailingContent,
-                content = content,
-            )
-        else ->
-            ListItem(
-                headlineContent = content,
-                modifier = semanticsModifier.clip(shapes.shape),
-                leadingContent = leadingContent,
-                supportingContent = supportingContent,
-                trailingContent = trailingContent,
-                colors =
-                    if (enabled) colors
-                    else
-                        colors.copy(
-                            containerColor = colors.disabledContainerColor,
-                            contentColor = colors.disabledContentColor,
-                            leadingContentColor = colors.disabledLeadingContentColor,
-                            supportingContentColor = colors.disabledSupportingContentColor,
-                            trailingContentColor = colors.disabledTrailingContentColor,
-                        ),
-            )
+                PreferenceSummary(summary)
+            }
+        }
+        trailingContent?.invoke(this)
     }
 }
 
@@ -147,32 +85,86 @@ internal fun PreferenceSurface(
     enabled: Boolean = true,
     position: PreferenceGroupPosition = PreferenceGroupPosition.Single,
     onClick: (() -> Unit)? = null,
+    checked: Boolean? = null,
+    onCheckedChange: ((Boolean) -> Unit)? = null,
+    role: Role? = null,
     content: @Composable RowScope.() -> Unit,
 ) {
-    PreferenceItem(modifier = modifier, enabled = enabled, position = position, onClick = onClick) {
+    val alphaValue = if (enabled) 1f else SettingsDimension.disabledAlpha
+    Box(
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .alpha(alphaValue)
+                .clip(preferenceShape(position))
+                .background(MaterialTheme.colorScheme.surfaceBright)
+                .then(
+                    when {
+                        checked != null && onCheckedChange != null ->
+                            Modifier.toggleable(
+                                value = checked,
+                                enabled = enabled,
+                                role = role,
+                                onValueChange = onCheckedChange,
+                            )
+
+                        onClick != null ->
+                            Modifier.clickable(enabled = enabled, onClick = onClick)
+                                .then(
+                                    if (role != null) {
+                                        Modifier.semantics { this.role = role }
+                                    } else {
+                                        Modifier
+                                    }
+                                )
+
+                        else -> Modifier
+                    }
+                )
+    ) {
         Row(
-            Modifier.fillMaxWidth(),
+            modifier =
+                Modifier.fillMaxWidth()
+                    .heightIn(min = SettingsDimension.preferenceMinHeight)
+                    .padding(horizontal = SettingsDimension.preferencePadding),
             verticalAlignment = Alignment.CenterVertically,
-            content = content,
-        )
+        ) {
+            content()
+        }
     }
 }
 
 @Composable
-internal fun PreferenceIcon(icon: ImageVector) {
+internal fun PreferenceIcon(icon: ImageVector?) {
+    if (icon == null) return
     Icon(
         imageVector = icon,
         contentDescription = null,
+        tint = MaterialTheme.colorScheme.onSurfaceVariant,
         modifier = Modifier.size(SettingsDimension.itemIconSize),
     )
+    Spacer(modifier = Modifier.width(SettingsDimension.itemIconSpacing))
 }
 
 @Composable
 internal fun PreferenceTitle(title: String) {
-    Text(text = title, maxLines = 2, overflow = TextOverflow.Ellipsis)
+    Text(
+        text = title,
+        color = MaterialTheme.colorScheme.onSurface,
+        style = MaterialTheme.typography.titleMedium,
+        maxLines = 2,
+        overflow = TextOverflow.Ellipsis,
+    )
 }
 
 @Composable
 internal fun PreferenceSummary(summary: String) {
-    Text(text = summary, maxLines = 3, overflow = TextOverflow.Ellipsis)
+    Spacer(modifier = Modifier.height(2.dp))
+    Text(
+        text = summary,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        style = MaterialTheme.typography.bodyMedium,
+        maxLines = 3,
+        overflow = TextOverflow.Ellipsis,
+    )
 }

@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.DeviceFontFamilyName
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.Hyphens
 
 /** Retains Material's type scale while resolving font families from the current system overlay. */
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -65,7 +66,8 @@ fun rememberSettingsTypography(): Typography {
     }
 }
 
-private fun TextStyle.withSystemFont(family: FontFamily) = copy(fontFamily = family)
+private fun TextStyle.withSystemFont(family: FontFamily) =
+    copy(fontFamily = family, hyphens = Hyphens.Auto)
 
 private fun Context.systemFontFamily(normalConfig: String, mediumConfig: String): FontFamily {
     val normal = androidFontConfig(normalConfig)

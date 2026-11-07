@@ -19,8 +19,8 @@ fun SettingsToolbarActionButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     iconSize: Dp = 24.dp,
-    buttonSize: Dp = Dp.Unspecified,
-    containerSize: Dp = Dp.Unspecified,
+    buttonSize: Dp = 56.dp,
+    containerSize: Dp = 40.dp,
 ) =
     org.uwuaosp.compose.widget.scaffold.SettingsToolbarActionButton(
         imageVector = imageVector,

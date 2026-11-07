@@ -3,19 +3,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-@file:OptIn(androidx.compose.material3.ExperimentalMaterial3ExpressiveApi::class)
-
 package org.uwuaosp.compose.widget.preference
 
-import androidx.compose.material3.ListItemDefaults
-import androidx.compose.material3.ListItemShapes
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.shape.RoundedCornerShape
+import org.uwuaosp.compose.framework.theme.SettingsDimension
 
-@Composable
-internal fun preferenceShapes(position: PreferenceGroupPosition): ListItemShapes =
-    when (position) {
-        PreferenceGroupPosition.Single -> ListItemDefaults.segmentedShapes(0, 1)
-        PreferenceGroupPosition.Top -> ListItemDefaults.segmentedShapes(0, 3)
-        PreferenceGroupPosition.Middle -> ListItemDefaults.segmentedShapes(1, 3)
-        PreferenceGroupPosition.Bottom -> ListItemDefaults.segmentedShapes(2, 3)
+internal fun preferenceShape(position: PreferenceGroupPosition): RoundedCornerShape {
+    val outer = SettingsDimension.groupOuterRadius
+    val inner = SettingsDimension.groupInnerRadius
+    return when (position) {
+        PreferenceGroupPosition.Single -> RoundedCornerShape(outer)
+        PreferenceGroupPosition.Top -> RoundedCornerShape(outer, outer, inner, inner)
+        PreferenceGroupPosition.Middle -> RoundedCornerShape(inner)
+        PreferenceGroupPosition.Bottom -> RoundedCornerShape(inner, inner, outer, outer)
     }
+}

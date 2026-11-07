@@ -24,17 +24,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Close
-import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.LoadingIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SearchBarDefaults
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -58,31 +52,13 @@ fun AppListSearchBar(
     onQueryChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Surface(
+    org.uwuaosp.compose.widget.editor.SettingsSearchField(
+        query = query,
+        onQueryChange = onQueryChange,
+        placeholder = searchPlaceholder,
+        clearContentDescription = clearSearchContentDescription,
         modifier = modifier,
-        shape = RoundedCornerShape(28.dp),
-        color = MaterialTheme.colorScheme.surfaceContainerHigh,
-    ) {
-        SearchBarDefaults.InputField(
-            query = query,
-            onQueryChange = onQueryChange,
-            onSearch = {},
-            expanded = false,
-            onExpandedChange = {},
-            placeholder = { Text(searchPlaceholder) },
-            leadingIcon = { Icon(Icons.Outlined.Search, contentDescription = null) },
-            trailingIcon = if (query.isNotEmpty()) {
-                {
-                    IconButton(onClick = { onQueryChange("") }) {
-                        Icon(Icons.Outlined.Close, contentDescription = clearSearchContentDescription)
-                    }
-                }
-            } else {
-                null
-            },
-            modifier = Modifier.fillMaxWidth(),
-        )
-    }
+    )
 }
 
 @Composable
@@ -212,6 +188,6 @@ fun AppListError(
     ) {
         Spacer(modifier = Modifier.height(44.dp))
         Text(text = text, color = MaterialTheme.colorScheme.onSurfaceVariant)
-        TextButton(onClick = onRetry) { Text(retryText) }
+        TextButton(onClick = onRetry, shapes = ButtonDefaults.shapes()) { Text(retryText) }
     }
 }

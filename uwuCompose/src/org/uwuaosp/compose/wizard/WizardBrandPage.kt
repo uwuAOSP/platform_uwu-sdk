@@ -6,17 +6,23 @@
 package org.uwuaosp.compose.wizard
 
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,7 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -46,32 +52,38 @@ fun WizardBrandPage(
 ) {
     var visible by remember { mutableStateOf(!animateContent) }
     LaunchedEffect(animateContent) { visible = true }
-    val contentAlpha by animateFloatAsState(
-        targetValue = if (visible) 1f else 0f,
-        animationSpec = MaterialTheme.motionScheme.defaultEffectsSpec(),
-        label = "wizardBrandAlpha",
-    )
-    val contentScale by animateFloatAsState(
-        targetValue = if (visible) 1f else 0.96f,
-        animationSpec = MaterialTheme.motionScheme.defaultSpatialSpec(),
-        label = "wizardBrandScale",
-    )
+    val contentAlpha by
+        animateFloatAsState(
+            targetValue = if (visible) 1f else 0f,
+            animationSpec = MaterialTheme.motionScheme.defaultEffectsSpec(),
+            label = "wizardBrandAlpha",
+        )
+    val contentScale by
+        animateFloatAsState(
+            targetValue = if (visible) 1f else 0.96f,
+            animationSpec = MaterialTheme.motionScheme.defaultSpatialSpec(),
+            label = "wizardBrandScale",
+        )
     Scaffold(
         modifier = modifier.fillMaxSize(),
-        containerColor = MaterialTheme.colorScheme.background,
+        containerColor = MaterialTheme.colorScheme.surface,
         bottomBar = { WizardBottomBar(actionButton, dismissButton) },
     ) { innerPadding ->
-        Surface(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding),
-            color = MaterialTheme.colorScheme.background,
-        ) {
-            Column(modifier = Modifier.fillMaxSize()) {
+        BoxWithConstraints(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
+            val columns =
+                if (maxWidth >= 840.dp * LocalDensity.current.fontScale.coerceAtLeast(1f)) 2 else 1
+            val gap = BrandPageHorizontalPadding
+            val itemWidth = (maxWidth - gap * (columns - 1)) / columns
+            val illustrationHeight =
+                (maxHeight * if (columns == 2) 0.8f else 0.45f).coerceAtLeast(120.dp)
+            FlowRow(
+                modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
+                maxItemsInEachRow = columns,
+                horizontalArrangement = Arrangement.spacedBy(gap),
+            ) {
                 Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxWidth()
+                    Modifier.width(itemWidth)
+                        .height(illustrationHeight)
                         .padding(
                             horizontal = BrandPageHorizontalPadding,
                             vertical = BrandPageVerticalPadding,
@@ -85,43 +97,34 @@ fun WizardBrandPage(
                 ) {
                     illustration()
                 }
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.displayLarge,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    fontWeight = FontWeight.SemiBold,
-                    modifier = Modifier
-                        .padding(
-                            start = BrandPageHorizontalPadding,
-                            end = BrandPageHorizontalPadding,
-                            bottom = if (subtitle == null) 30.dp else 10.dp,
-                        )
-                        .graphicsLayer { alpha = contentAlpha },
-                )
-                if (subtitle != null) {
+                Column(Modifier.width(itemWidth).padding(horizontal = BrandPageHorizontalPadding)) {
                     Text(
-                        text = subtitle,
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.68f),
-                        modifier = Modifier
-                            .padding(
-                                start = BrandPageHorizontalPadding,
-                                end = BrandPageHorizontalPadding,
-                                bottom = 30.dp,
-                            )
-                            .graphicsLayer { alpha = contentAlpha },
+                        text = title,
+                        style = MaterialTheme.typography.displayLargeEmphasized,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        modifier =
+                            Modifier.padding(bottom = if (subtitle == null) 30.dp else 10.dp)
+                                .graphicsLayer { alpha = contentAlpha },
                     )
+                    if (subtitle != null) {
+                        Text(
+                            text = subtitle,
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier =
+                                Modifier.padding(bottom = 30.dp).graphicsLayer {
+                                    alpha = contentAlpha
+                                },
+                        )
+                    }
+                    Box(
+                        Modifier.fillMaxWidth().heightIn(min = 56.dp),
+                        contentAlignment = Alignment.TopCenter,
+                    ) {
+                        assistContent?.invoke()
+                    }
+                    Spacer(Modifier.height(bottomContentPadding))
                 }
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(56.dp)
-                        .padding(horizontal = BrandPageHorizontalPadding),
-                    contentAlignment = Alignment.TopCenter,
-                ) {
-                    assistContent?.invoke()
-                }
-                Spacer(Modifier.height(bottomContentPadding))
             }
         }
     }

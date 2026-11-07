@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
@@ -42,7 +41,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 data class BottomAppBarButton(
@@ -68,23 +66,18 @@ fun GlifScaffold(
         containerColor = MaterialTheme.colorScheme.surfaceContainer,
         contentWindowInsets = WindowInsets.safeDrawing,
     ) { innerPadding ->
-        BoxWithConstraints(
-            Modifier
-                .padding(innerPadding)
-                .padding(top = 8.dp),
-        ) {
-            if (maxWidth < maxHeight) {
+        BoxWithConstraints(Modifier.padding(innerPadding).padding(top = 8.dp)) {
+            if (maxWidth < 840.dp) {
                 Column {
                     Column(
-                        Modifier
-                            .weight(1f)
+                        Modifier.weight(1f)
                             .then(
                                 if (contentScrollable) {
                                     Modifier.verticalScroll(rememberScrollState())
                                 } else {
                                     Modifier
-                                },
-                            ),
+                                }
+                            )
                     ) {
                         GlifHeader(
                             imageVector = imageVector,
@@ -110,15 +103,14 @@ fun GlifScaffold(
                             )
                         }
                         Column(
-                            Modifier
-                                .weight(1f)
+                            Modifier.weight(1f)
                                 .then(
                                     if (contentScrollable) {
                                         Modifier.verticalScroll(rememberScrollState())
                                     } else {
                                         Modifier
-                                    },
-                                ),
+                                    }
+                                )
                         ) {
                             content()
                         }
@@ -146,10 +138,11 @@ private fun GlifHeader(
             onNavigateBack?.let { navigateBack ->
                 FilledTonalIconButton(
                     onClick = navigateBack,
-                    shape = IconButtonDefaults.smallRoundShape,
-                    colors = IconButtonDefaults.filledTonalIconButtonColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
-                    ),
+                    shapes = IconButtonDefaults.shapes(),
+                    colors =
+                        IconButtonDefaults.filledTonalIconButtonColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceContainerHighest
+                        ),
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
@@ -157,10 +150,7 @@ private fun GlifHeader(
                     )
                 }
             }
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center,
-            ) {
+            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                 Icon(
                     imageVector = imageVector,
                     contentDescription = null,
@@ -172,8 +162,7 @@ private fun GlifHeader(
         Text(
             text = title,
             color = MaterialTheme.colorScheme.onSurface,
-            style = MaterialTheme.typography.displaySmall,
-            fontWeight = FontWeight.SemiBold,
+            style = MaterialTheme.typography.displaySmallEmphasized,
         )
         if (description.isNotEmpty()) {
             Text(
@@ -192,63 +181,44 @@ internal fun WizardBottomBar(
 ) {
     if (actionButton == null && dismissButton == null) return
     Row(
-        modifier = Modifier.padding(
-            start = 24.dp,
-            top = 8.dp,
-            end = 24.dp,
-            bottom = 2.dp,
-        ),
+        modifier = Modifier.padding(start = 24.dp, top = 8.dp, end = 24.dp, bottom = 2.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         val size = ButtonDefaults.MediumContainerHeight
         dismissButton?.let { button ->
             OutlinedButton(
                 onClick = button.onClick,
-                modifier = Modifier
-                    .weight(1f)
-                    .heightIn(size),
+                modifier = Modifier.weight(1f).heightIn(size),
                 enabled = button.enabled,
                 contentPadding = ButtonDefaults.contentPaddingFor(size),
                 shapes = ButtonDefaults.shapesFor(size),
             ) {
-                ActionText(button.text)
+                Text(button.text, style = ButtonDefaults.textStyleFor(size))
             }
         }
         actionButton?.let { button ->
             Button(
                 onClick = button.onClick,
-                modifier = Modifier
-                    .weight(1f)
-                    .heightIn(size),
+                modifier = Modifier.weight(1f).heightIn(size),
                 enabled = button.enabled,
                 contentPadding = ButtonDefaults.contentPaddingFor(size),
                 shapes = ButtonDefaults.shapesFor(size),
             ) {
-                ActionText(button.text)
+                Text(button.text, style = ButtonDefaults.textStyleFor(size))
             }
         }
     }
 }
 
 @Composable
-private fun ActionText(text: String) {
-    Text(
-        text = text,
-        style = MaterialTheme.typography.bodyMedium,
-        fontWeight = FontWeight.Medium,
-    )
-}
-
-@Composable
 private fun ActivityTitle(title: String) {
     val context = LocalContext.current
-    LaunchedEffect(context, title) {
-        context.findActivity()?.title = title
-    }
+    LaunchedEffect(context, title) { context.findActivity()?.title = title }
 }
 
-private tailrec fun Context.findActivity(): Activity? = when (this) {
-    is Activity -> this
-    is ContextWrapper -> baseContext.findActivity()
-    else -> null
-}
+private tailrec fun Context.findActivity(): Activity? =
+    when (this) {
+        is Activity -> this
+        is ContextWrapper -> baseContext.findActivity()
+        else -> null
+    }

@@ -11,6 +11,7 @@ android_app {
     static_libs: [
         "uwuComposeSettingsLib",
         "androidx.activity_activity-compose",
+        "androidx.compose.runtime_runtime",
     ],
     kotlincflags: ["-Xjvm-default=all"],
 }

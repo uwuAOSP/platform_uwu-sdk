@@ -11,7 +11,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material.icons.outlined.VpnKey
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -25,12 +30,14 @@ import org.uwuaosp.compose.widget.scaffold.SettingsScaffold
 
 @Composable
 fun PreferencePage(onBack: () -> Unit) {
+    var actionCount by rememberSaveable { mutableIntStateOf(0) }
     SettingsScaffold(
         title = stringResource(R.string.category_preference),
         showBackButton = true,
         onNavigateUp = onBack,
         contentTopPadding = 0.dp,
         content = {
+            Text(stringResource(R.string.expressive_action_count, actionCount))
             SettingsSection(stringResource(R.string.pref_basic_title)) {
                 item {
                     val preferenceTitle = stringResource(R.string.pref_basic_title)
@@ -40,7 +47,10 @@ fun PreferencePage(onBack: () -> Unit) {
                             object : PreferenceModel {
                                 override val title = preferenceTitle
                                 override val summary = { preferenceSummary }
-                                override val onClick = {}
+                                override val onClick = {
+                                    actionCount++
+                                    Unit
+                                }
                             }
                     )
                 }
@@ -49,7 +59,7 @@ fun PreferencePage(onBack: () -> Unit) {
                         title = stringResource(R.string.pref_with_icon_title),
                         summary = stringResource(R.string.pref_with_icon_summary),
                         icon = Icons.Outlined.Settings,
-                        onClick = {},
+                        onClick = { actionCount++ },
                     )
                 }
             }
@@ -61,7 +71,7 @@ fun PreferencePage(onBack: () -> Unit) {
                         summary = stringResource(R.string.pref_disabled_summary),
                         enabled = false,
                         icon = Icons.Outlined.VpnKey,
-                        onClick = {},
+                        onClick = { actionCount++ },
                     )
                 }
             }
@@ -71,7 +81,7 @@ fun PreferencePage(onBack: () -> Unit) {
                     PreferenceRow(
                         title = stringResource(R.string.pref_long_title),
                         summary = stringResource(R.string.pref_long_summary),
-                        onClick = {},
+                        onClick = { actionCount++ },
                     )
                 }
                 item {
@@ -79,7 +89,7 @@ fun PreferencePage(onBack: () -> Unit) {
                         title = stringResource(R.string.pref_single_line),
                         summary = stringResource(R.string.pref_basic_summary),
                         showSummary = true,
-                        onClick = {},
+                        onClick = { actionCount++ },
                     )
                 }
                 item {
@@ -88,7 +98,7 @@ fun PreferencePage(onBack: () -> Unit) {
                         summary = null,
                         showSummary = false,
                         icon = Icons.Outlined.Star,
-                        onClick = {},
+                        onClick = { actionCount++ },
                     )
                 }
             }

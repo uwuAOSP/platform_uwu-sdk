@@ -9,8 +9,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DarkMode
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -27,6 +29,7 @@ import org.uwuaosp.compose.widget.scaffold.SettingsScaffold
 
 @Composable
 fun SwitchPage(onBack: () -> Unit) {
+    var actionCount by rememberSaveable { mutableIntStateOf(0) }
     var mainChecked by rememberSaveable { mutableStateOf(true) }
     var basicChecked by rememberSaveable { mutableStateOf(false) }
     var primaryChecked by rememberSaveable { mutableStateOf(true) }
@@ -38,6 +41,7 @@ fun SwitchPage(onBack: () -> Unit) {
         onNavigateUp = onBack,
         contentTopPadding = 0.dp,
         content = {
+            Text(stringResource(R.string.expressive_action_count, actionCount))
             SettingsSection(stringResource(R.string.switch_main_title)) {
                 item {
                     MainSwitchPreference(
@@ -75,7 +79,7 @@ fun SwitchPage(onBack: () -> Unit) {
                         summary = stringResource(R.string.switch_primary_summary),
                         checked = primaryChecked,
                         onCheckedChange = { primaryChecked = it },
-                        onClick = {},
+                        onClick = { actionCount++ },
                     )
                 }
             }

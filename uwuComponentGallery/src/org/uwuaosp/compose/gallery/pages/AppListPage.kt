@@ -8,6 +8,7 @@ package org.uwuaosp.compose.gallery.pages
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -16,6 +17,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import org.uwuaosp.compose.gallery.R
@@ -59,18 +61,24 @@ private class AppIconGenerator {
 @Composable
 fun AppListPage(onBack: () -> Unit) {
     val context = LocalContext.current
+    val configuration = LocalConfiguration.current
     val sampleApps =
-        remember(context) {
+        remember(context, configuration) {
             val labels = context.resources.getStringArray(R.array.sample_app_labels)
             val packages = context.resources.getStringArray(R.array.sample_app_packages)
             labels.zip(packages) { label, pkg -> SampleApp(label, pkg) }
         }
 
+    var selectedPackage by rememberSaveable { mutableStateOf("") }
     var searchQuery by rememberSaveable { mutableStateOf("") }
-    val iconGenerator = remember { AppIconGenerator() }
+    val icons =
+        remember(sampleApps) {
+            val generator = AppIconGenerator()
+            sampleApps.associate { it.packageName to generator.generate(it.label) }
+        }
 
     val filteredApps =
-        remember(searchQuery) {
+        remember(searchQuery, sampleApps) {
             if (searchQuery.isEmpty()) {
                 sampleApps
             } else {
@@ -89,15 +97,16 @@ fun AppListPage(onBack: () -> Unit) {
         onSearchQueryChange = { searchQuery = it },
         onNavigateUp = onBack,
         content = {
+            if (selectedPackage.isNotEmpty()) item(key = "selectedApp") { Text(selectedPackage) }
             items(filteredApps.size) { index ->
                 val app = filteredApps[index]
                 AppListItem(
                     label = app.label,
                     packageName = app.packageName,
-                    icon = iconGenerator.generate(app.label),
+                    icon = icons.getValue(app.packageName),
                     index = index,
                     itemCount = filteredApps.size,
-                    onClick = {},
+                    onClick = { selectedPackage = app.packageName },
                 )
             }
         },

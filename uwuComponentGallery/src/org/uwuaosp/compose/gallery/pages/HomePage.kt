@@ -49,6 +49,22 @@ fun HomePage(onNavigate: (GalleryScreen) -> Unit) {
                 }
             }
             SettingsSectionSpacer()
+            SettingsSection(stringResource(R.string.catalog_title)) {
+                listOf(
+                        R.string.catalog_inputs to GalleryScreen.CatalogInputs,
+                        R.string.catalog_surfaces to GalleryScreen.CatalogSurfaces,
+                        R.string.catalog_navigation to GalleryScreen.CatalogNavigation,
+                    )
+                    .forEach { (title, screen) ->
+                        item {
+                            PreferenceRow(
+                                title = stringResource(title),
+                                onClick = { onNavigate(screen) },
+                            )
+                        }
+                    }
+            }
+            SettingsSectionSpacer()
             SettingsSection(stringResource(R.string.category_menus)) {
                 item {
                     PreferenceRow(

@@ -15,7 +15,12 @@ import androidx.compose.material.icons.outlined.Bluetooth
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material.icons.outlined.Wifi
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -27,12 +32,14 @@ import org.uwuaosp.compose.widget.ui.SettingsHomepageIcon
 
 @Composable
 fun IconPage(onBack: () -> Unit) {
+    var actionCount by rememberSaveable { mutableIntStateOf(0) }
     SettingsScaffold(
         title = stringResource(R.string.subtitle_icons),
         showBackButton = true,
         onNavigateUp = onBack,
         contentTopPadding = 0.dp,
         content = {
+            Text(stringResource(R.string.expressive_action_count, actionCount))
             SettingsSectionHeader(stringResource(R.string.icon_basic))
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -49,7 +56,7 @@ fun IconPage(onBack: () -> Unit) {
                 title = stringResource(R.string.icon_preference),
                 summary = stringResource(R.string.pref_with_icon_summary),
                 icon = Icons.Outlined.Wifi,
-                onClick = {},
+                onClick = { actionCount++ },
             )
             Spacer(modifier = Modifier.height(24.dp))
         },

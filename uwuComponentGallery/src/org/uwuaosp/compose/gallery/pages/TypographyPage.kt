@@ -42,6 +42,37 @@ fun TypographyPage(onBack: () -> Unit) {
                 onCheckedChange = { emphasized = it },
             )
             Spacer(Modifier.height(16.dp))
+
+            listOf(
+                    Triple(
+                        R.string.typography_display_large,
+                        typography.displayLarge,
+                        typography.displayLargeEmphasized,
+                    ),
+                    Triple(
+                        R.string.typography_display_medium,
+                        typography.displayMedium,
+                        typography.displayMediumEmphasized,
+                    ),
+                    Triple(
+                        R.string.typography_headline_large,
+                        typography.headlineLarge,
+                        typography.headlineLargeEmphasized,
+                    ),
+                    Triple(
+                        R.string.typography_headline_medium,
+                        typography.headlineMedium,
+                        typography.headlineMediumEmphasized,
+                    ),
+                )
+                .forEach { (label, regular, emphasizedStyle) ->
+                    SettingsSectionHeader(stringResource(label))
+                    Text(
+                        stringResource(label),
+                        style = if (emphasized) emphasizedStyle else regular,
+                    )
+                    Spacer(Modifier.height(4.dp))
+                }
             SettingsSectionHeader(stringResource(R.string.typography_display_small))
             Text(
                 stringResource(R.string.typography_display_small),

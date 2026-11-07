@@ -33,9 +33,13 @@ import org.uwuaosp.compose.widget.ui.SettingsContent
 
 @Composable
 fun ScaffoldPage(onBack: () -> Unit) {
+    var actionCount by rememberSaveable { mutableIntStateOf(0) }
     var mode by rememberSaveable { mutableIntStateOf(0) }
     val title = stringResource(R.string.category_scaffold)
     val controls: @Composable () -> Unit = {
+        androidx.compose.material3.Text(
+            stringResource(R.string.expressive_action_count, actionCount)
+        )
         FlowRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.padding(bottom = 8.dp),
@@ -63,7 +67,7 @@ fun ScaffoldPage(onBack: () -> Unit) {
             ) {
                 item(key = "controls") { controls() }
                 items(count = 50, key = { it }) { index ->
-                    ScaffoldDemoRow(index = index, itemCount = 50)
+                    ScaffoldDemoRow(index = index, itemCount = 50, onClick = { actionCount++ })
                 }
             }
         }
@@ -78,7 +82,9 @@ fun ScaffoldPage(onBack: () -> Unit) {
             ) {
                 controls()
                 SettingsSection(stringResource(R.string.scaffold_standard_title)) {
-                    repeat(50) { index -> item { ScaffoldDemoRow(index) } }
+                    repeat(50) { index ->
+                        item { ScaffoldDemoRow(index, onClick = { actionCount++ }) }
+                    }
                 }
             }
         1 ->
@@ -99,13 +105,13 @@ fun ScaffoldPage(onBack: () -> Unit) {
 }
 
 @Composable
-private fun ScaffoldDemoRow(index: Int, itemCount: Int = 1) {
+private fun ScaffoldDemoRow(index: Int, itemCount: Int = 1, onClick: () -> Unit) {
     PreferenceRow(
         title = "${stringResource(R.string.scaffold_lazy_item)} ${index + 1}",
         summary = stringResource(R.string.scaffold_demo_content),
         icon = Icons.Outlined.Layers,
         index = index,
         itemCount = itemCount,
-        onClick = {},
+        onClick = onClick,
     )
 }

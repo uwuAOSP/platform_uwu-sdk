@@ -7,6 +7,8 @@ package org.uwuaosp.compose.gallery.pages
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import org.uwuaosp.compose.gallery.R
 import org.uwuaosp.compose.widget.preference.SettingsSectionHeader
 import org.uwuaosp.compose.widget.scaffold.SettingsScaffold
+import org.uwuaosp.compose.widget.ui.SettingsIllustrationHeader
 
 @Composable
 fun IllustrationPage(onBack: () -> Unit) {
@@ -26,6 +29,7 @@ fun IllustrationPage(onBack: () -> Unit) {
         contentTopPadding = 0.dp,
         content = {
             SettingsSectionHeader(stringResource(R.string.illustration_demo))
+            SettingsIllustrationHeader(imageVector = Icons.Outlined.AutoAwesome)
             Text(
                 text = stringResource(R.string.illustration_content),
                 style = MaterialTheme.typography.bodyMedium,

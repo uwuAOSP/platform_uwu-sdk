@@ -209,6 +209,7 @@ internal fun WizardBottomBar(
                     .heightIn(size),
                 enabled = button.enabled,
                 contentPadding = ButtonDefaults.contentPaddingFor(size),
+                shapes = ButtonDefaults.shapesFor(size),
             ) {
                 ActionText(button.text)
             }
@@ -221,6 +222,7 @@ internal fun WizardBottomBar(
                     .heightIn(size),
                 enabled = button.enabled,
                 contentPadding = ButtonDefaults.contentPaddingFor(size),
+                shapes = ButtonDefaults.shapesFor(size),
             ) {
                 ActionText(button.text)
             }

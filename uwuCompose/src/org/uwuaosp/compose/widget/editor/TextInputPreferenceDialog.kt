@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
@@ -27,6 +29,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 
 /** Keeps the edit local until confirmation and restores it across recreation. */
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun TextInputPreferenceDialog(
     title: String,
@@ -71,8 +74,16 @@ fun TextInputPreferenceDialog(
                 keyboardActions = KeyboardActions(onDone = { confirm() }),
             )
         },
-        confirmButton = { TextButton(onClick = ::confirm, enabled = valid) { Text(confirmText) } },
-        dismissButton = { TextButton(onClick = onDismissRequest) { Text(dismissText) } },
+        confirmButton = {
+            TextButton(onClick = ::confirm, enabled = valid, shapes = ButtonDefaults.shapes()) {
+                Text(confirmText)
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismissRequest, shapes = ButtonDefaults.shapes()) {
+                Text(dismissText)
+            }
+        },
     )
     LaunchedEffect(focusRequester) { focusRequester.requestFocus() }
 }

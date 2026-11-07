@@ -5,9 +5,7 @@
 
 package org.uwuaosp.compose.wizard
 
-import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -15,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -32,6 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun WizardBrandPage(
     title: String,
@@ -48,12 +48,12 @@ fun WizardBrandPage(
     LaunchedEffect(animateContent) { visible = true }
     val contentAlpha by animateFloatAsState(
         targetValue = if (visible) 1f else 0f,
-        animationSpec = tween(420),
+        animationSpec = MaterialTheme.motionScheme.defaultEffectsSpec(),
         label = "wizardBrandAlpha",
     )
     val contentScale by animateFloatAsState(
         targetValue = if (visible) 1f else 0.96f,
-        animationSpec = tween(520, easing = FastOutSlowInEasing),
+        animationSpec = MaterialTheme.motionScheme.defaultSpatialSpec(),
         label = "wizardBrandScale",
     )
     Scaffold(

@@ -390,13 +390,6 @@ fun ExpressivePage(onBack: () -> Unit) {
                     }
                 }
             }
-            ExpressiveCard(stringResource(R.string.expressive_app_bar), Modifier.width(cardWidth)) {
-                LargeFlexibleTopAppBar(
-                    title = { Text(stringResource(R.string.expressive_create)) },
-                    subtitle = { Text(stringResource(R.string.category_expressive)) },
-                    windowInsets = WindowInsets(0, 0, 0, 0),
-                )
-            }
             ExpressiveCard(
                 stringResource(R.string.expressive_fab_menu),
                 Modifier.width(cardWidth),

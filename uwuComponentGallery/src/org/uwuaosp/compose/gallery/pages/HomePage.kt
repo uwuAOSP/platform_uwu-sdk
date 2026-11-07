@@ -49,6 +49,17 @@ fun HomePage(onNavigate: (GalleryScreen) -> Unit) {
                 }
             }
             SettingsSectionSpacer()
+            SettingsSection(stringResource(R.string.category_menus)) {
+                item {
+                    PreferenceRow(
+                        title = stringResource(R.string.category_menus),
+                        summary = stringResource(R.string.desc_menus),
+                        icon = Icons.Outlined.Settings,
+                        onClick = { onNavigate(GalleryScreen.Menus) },
+                    )
+                }
+            }
+            SettingsSectionSpacer()
             SettingsSection(stringResource(R.string.category_scaffold)) {
                 item {
                     PreferenceRow(

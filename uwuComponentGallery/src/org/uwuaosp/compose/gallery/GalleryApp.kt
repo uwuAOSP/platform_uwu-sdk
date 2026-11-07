@@ -55,6 +55,7 @@ enum class GalleryScreen {
     Illustration,
     Search,
     Expressive,
+    Menus,
 }
 
 @Composable
@@ -85,6 +86,10 @@ fun GalleryApp() {
     ) { screen ->
         stateHolder.SaveableStateProvider(screen.name) {
             when (screen) {
+                GalleryScreen.Menus ->
+                    org.uwuaosp.compose.gallery.pages.MenuPage(
+                        onBack = { currentScreen = GalleryScreen.Home }
+                    )
                 GalleryScreen.Expressive ->
                     org.uwuaosp.compose.gallery.pages.ExpressivePage(
                         onBack = { currentScreen = GalleryScreen.Home }

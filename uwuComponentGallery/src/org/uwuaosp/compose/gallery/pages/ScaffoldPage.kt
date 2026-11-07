@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Layers
 import androidx.compose.material3.FilterChip
@@ -33,6 +34,7 @@ import org.uwuaosp.compose.widget.ui.SettingsContent
 
 @Composable
 fun ScaffoldPage(onBack: () -> Unit) {
+    val listState = rememberLazyListState()
     var actionCount by rememberSaveable { mutableIntStateOf(0) }
     var mode by rememberSaveable { mutableIntStateOf(0) }
     val title = stringResource(R.string.category_scaffold)
@@ -61,6 +63,7 @@ fun ScaffoldPage(onBack: () -> Unit) {
     val lazyContent: @Composable (PaddingValues) -> Unit = { padding ->
         SettingsContent {
             LazyColumn(
+                state = listState,
                 modifier = Modifier.fillMaxSize().padding(padding).consumeWindowInsets(padding),
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
                 verticalArrangement = Arrangement.spacedBy(2.dp),

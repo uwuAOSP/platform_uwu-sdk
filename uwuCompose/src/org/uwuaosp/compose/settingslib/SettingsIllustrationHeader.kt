@@ -24,3 +24,10 @@ fun SettingsIllustrationHeader(
         modifier = modifier,
         height = height,
     )
+
+@Composable
+fun SettingsIllustrationHeader(
+    imageVector: androidx.compose.ui.graphics.vector.ImageVector,
+    modifier: Modifier = Modifier,
+    height: Dp = 240.dp,
+) = org.uwuaosp.compose.widget.ui.SettingsIllustrationHeader(imageVector, modifier, height)

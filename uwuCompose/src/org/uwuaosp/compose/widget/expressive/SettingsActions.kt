@@ -7,6 +7,7 @@
 
 package org.uwuaosp.compose.widget.expressive
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ColumnScope
@@ -21,12 +22,14 @@ import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ButtonGroupDefaults
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.FloatingToolbarDefaults
 import androidx.compose.material3.HorizontalFloatingToolbar
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.SplitButtonDefaults
@@ -40,7 +43,9 @@ import androidx.compose.material3.TooltipBox
 import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
@@ -109,8 +114,14 @@ fun SettingsFloatingToolbar(
     )
 }
 
-/** The trailing segment anchors a menu; the caller owns expansion and menu actions. */
-@OptIn(ExperimentalMaterial3Api::class)
+enum class SettingsSplitButtonStyle {
+    Filled,
+    Tonal,
+    Outlined,
+    Elevated,
+}
+
+/** Compatibility entry point for the standard filled split button. */
 @Composable
 fun SettingsSplitButton(
     label: String,
@@ -121,11 +132,101 @@ fun SettingsSplitButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     menuContent: @Composable ColumnScope.() -> Unit,
+) =
+    SettingsSplitButton(
+        label = label,
+        expanded = expanded,
+        onClick = onClick,
+        onExpandedChange = onExpandedChange,
+        menuContentDescription = menuContentDescription,
+        size = SettingsButtonSize.Small,
+        modifier = modifier,
+        enabled = enabled,
+        menuContent = menuContent,
+    )
+
+/** Both segments take their geometry and colors from the native size and style variants. */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SettingsSplitButton(
+    label: String,
+    expanded: Boolean,
+    onClick: () -> Unit,
+    onExpandedChange: (Boolean) -> Unit,
+    menuContentDescription: String,
+    size: SettingsButtonSize,
+    style: SettingsSplitButtonStyle = SettingsSplitButtonStyle.Filled,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    menuContent: @Composable ColumnScope.() -> Unit,
 ) {
+    val height =
+        when (size) {
+            SettingsButtonSize.ExtraSmall -> SplitButtonDefaults.ExtraSmallContainerHeight
+            SettingsButtonSize.Small -> SplitButtonDefaults.SmallContainerHeight
+            SettingsButtonSize.Medium -> SplitButtonDefaults.MediumContainerHeight
+            SettingsButtonSize.Large -> SplitButtonDefaults.LargeContainerHeight
+            SettingsButtonSize.ExtraLarge -> SplitButtonDefaults.ExtraLargeContainerHeight
+        }
+    val leadingContent: @Composable RowScope.() -> Unit = {
+        Text(label, style = ButtonDefaults.textStyleFor(height))
+    }
+    val trailingContent: @Composable RowScope.() -> Unit = {
+        val rotation by
+            animateFloatAsState(
+                targetValue = if (expanded) 180f else 0f,
+                animationSpec = MaterialTheme.motionScheme.defaultSpatialSpec(),
+                label = "splitMenuArrow",
+            )
+        Icon(
+            Icons.Filled.KeyboardArrowDown,
+            menuContentDescription,
+            Modifier.size(SplitButtonDefaults.trailingButtonIconSizeFor(height)).graphicsLayer {
+                rotationZ = rotation
+            },
+        )
+    }
     SplitButtonLayout(
         modifier = modifier,
         leadingButton = {
-            SplitButtonDefaults.LeadingButton(onClick = onClick, enabled = enabled) { Text(label) }
+            when (style) {
+                SettingsSplitButtonStyle.Filled ->
+                    SplitButtonDefaults.LeadingButton(
+                        onClick = onClick,
+                        enabled = enabled,
+                        modifier = Modifier.heightIn(min = height),
+                        shapes = SplitButtonDefaults.leadingButtonShapesFor(height),
+                        contentPadding = SplitButtonDefaults.leadingButtonContentPaddingFor(height),
+                        content = leadingContent,
+                    )
+                SettingsSplitButtonStyle.Tonal ->
+                    SplitButtonDefaults.TonalLeadingButton(
+                        onClick = onClick,
+                        enabled = enabled,
+                        modifier = Modifier.heightIn(min = height),
+                        shapes = SplitButtonDefaults.leadingButtonShapesFor(height),
+                        contentPadding = SplitButtonDefaults.leadingButtonContentPaddingFor(height),
+                        content = leadingContent,
+                    )
+                SettingsSplitButtonStyle.Outlined ->
+                    SplitButtonDefaults.OutlinedLeadingButton(
+                        onClick = onClick,
+                        enabled = enabled,
+                        modifier = Modifier.heightIn(min = height),
+                        shapes = SplitButtonDefaults.leadingButtonShapesFor(height),
+                        contentPadding = SplitButtonDefaults.leadingButtonContentPaddingFor(height),
+                        content = leadingContent,
+                    )
+                SettingsSplitButtonStyle.Elevated ->
+                    SplitButtonDefaults.ElevatedLeadingButton(
+                        onClick = onClick,
+                        enabled = enabled,
+                        modifier = Modifier.heightIn(min = height),
+                        shapes = SplitButtonDefaults.leadingButtonShapesFor(height),
+                        contentPadding = SplitButtonDefaults.leadingButtonContentPaddingFor(height),
+                        content = leadingContent,
+                    )
+            }
         },
         trailingButton = {
             Box {
@@ -137,19 +238,54 @@ fun SettingsSplitButton(
                     tooltip = { PlainTooltip { Text(menuContentDescription) } },
                     state = rememberTooltipState(),
                 ) {
-                    SplitButtonDefaults.TrailingButton(
-                        checked = expanded,
-                        onCheckedChange = onExpandedChange,
-                        enabled = enabled,
-                    ) {
-                        Icon(Icons.Filled.KeyboardArrowDown, menuContentDescription)
+                    when (style) {
+                        SettingsSplitButtonStyle.Filled ->
+                            SplitButtonDefaults.TrailingButton(
+                                checked = expanded,
+                                onCheckedChange = onExpandedChange,
+                                enabled = enabled,
+                                modifier = Modifier.heightIn(min = height),
+                                shapes = SplitButtonDefaults.trailingButtonShapesFor(height),
+                                contentPadding =
+                                    SplitButtonDefaults.trailingButtonContentPaddingFor(height),
+                                content = trailingContent,
+                            )
+                        SettingsSplitButtonStyle.Tonal ->
+                            SplitButtonDefaults.TonalTrailingButton(
+                                checked = expanded,
+                                onCheckedChange = onExpandedChange,
+                                enabled = enabled,
+                                modifier = Modifier.heightIn(min = height),
+                                shapes = SplitButtonDefaults.trailingButtonShapesFor(height),
+                                contentPadding =
+                                    SplitButtonDefaults.trailingButtonContentPaddingFor(height),
+                                content = trailingContent,
+                            )
+                        SettingsSplitButtonStyle.Outlined ->
+                            SplitButtonDefaults.OutlinedTrailingButton(
+                                checked = expanded,
+                                onCheckedChange = onExpandedChange,
+                                enabled = enabled,
+                                modifier = Modifier.heightIn(min = height),
+                                shapes = SplitButtonDefaults.trailingButtonShapesFor(height),
+                                contentPadding =
+                                    SplitButtonDefaults.trailingButtonContentPaddingFor(height),
+                                content = trailingContent,
+                            )
+                        SettingsSplitButtonStyle.Elevated ->
+                            SplitButtonDefaults.ElevatedTrailingButton(
+                                checked = expanded,
+                                onCheckedChange = onExpandedChange,
+                                enabled = enabled,
+                                modifier = Modifier.heightIn(min = height),
+                                shapes = SplitButtonDefaults.trailingButtonShapesFor(height),
+                                contentPadding =
+                                    SplitButtonDefaults.trailingButtonContentPaddingFor(height),
+                                content = trailingContent,
+                            )
                     }
                 }
-                SettingsDropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { onExpandedChange(false) },
-                    content = menuContent,
-                )
+                SettingsDropdownMenu(expanded, { onExpandedChange(false) }, content = menuContent)
             }
         },
     )
@@ -169,6 +305,7 @@ enum class SettingsButtonStyle {
     Tonal,
     Outlined,
     Text,
+    Elevated,
 }
 
 @Composable
@@ -195,6 +332,15 @@ fun SettingsActionButton(
         Text(label, style = ButtonDefaults.textStyleFor(height))
     }
     when (style) {
+        SettingsButtonStyle.Elevated ->
+            ElevatedButton(
+                onClick = onClick,
+                modifier = sized,
+                enabled = enabled,
+                shapes = shapes,
+                contentPadding = padding,
+                content = content,
+            )
         SettingsButtonStyle.Filled ->
             Button(
                 onClick = onClick,

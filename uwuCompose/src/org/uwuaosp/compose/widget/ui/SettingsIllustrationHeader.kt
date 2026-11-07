@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
@@ -30,6 +31,22 @@ fun SettingsIllustrationHeader(
     Box(modifier = modifier.fillMaxWidth().height(height), contentAlignment = Alignment.Center) {
         Image(
             painter = painterResource(imageRes),
+            contentDescription = null,
+            contentScale = ContentScale.Fit,
+            modifier = Modifier.fillMaxSize(),
+        )
+    }
+}
+
+@Composable
+fun SettingsIllustrationHeader(
+    imageVector: ImageVector,
+    modifier: Modifier = Modifier,
+    height: Dp = DefaultIllustrationHeight,
+) {
+    Box(modifier = modifier.fillMaxWidth().height(height), contentAlignment = Alignment.Center) {
+        Image(
+            imageVector = imageVector,
             contentDescription = null,
             contentScale = ContentScale.Fit,
             modifier = Modifier.fillMaxSize(),

@@ -21,6 +21,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.ripple
+import androidx.compose.ui.res.stringResource
+import org.uwuaosp.compose.R
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -113,7 +115,7 @@ internal fun SettingsToolbar(
         }
         Box(Modifier.fillMaxWidth().height(actionBarHeight).background(containerColor))
         if (showBackButton) {
-            SettingsToolbarActionButton(ExpressiveBackIcon, null, onNavigateUp,
+            SettingsToolbarActionButton(ExpressiveBackIcon, stringResource(R.string.settings_navigate_up), onNavigateUp,
                 modifier = Modifier.align(Alignment.TopStart).padding(start = 15.dp).height(actionBarHeight),
                 iconSize = 16.dp)
         }

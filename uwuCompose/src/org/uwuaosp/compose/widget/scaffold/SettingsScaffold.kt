@@ -21,10 +21,10 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.consumeWindowInsets
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.rememberScrollState
@@ -34,10 +34,11 @@ import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -148,40 +149,44 @@ internal fun SettingsPageScaffold(
     val density = LocalDensity.current
     LaunchedEffect(context, title) { context.findSettingsActivity()?.title = title }
     val statusBarPadding = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
-    val navigationBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+    val navigationBarPadding =
+        WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
     val collapsedHeight = if (collapsing) actionBarSize() else 64.dp
     val collapseRange =
         with(density) { (expandedToolbarHeight - collapsedHeight).coerceAtLeast(0.dp).toPx() }
-    var toolbarOffsetPx by remember(collapsing, startCollapsed, collapseRange) {
-        mutableFloatStateOf(if (collapsing && startCollapsed) collapseRange else 0f)
-    }
+    var toolbarOffsetPx by
+        rememberSaveable(collapsing, startCollapsed, collapseRange) {
+            mutableFloatStateOf(if (collapsing && startCollapsed) collapseRange else 0f)
+        }
     toolbarOffsetPx = toolbarOffsetPx.coerceIn(0f, collapseRange)
-    val nestedConnection = remember(collapsing, collapseRange) {
-        object : NestedScrollConnection {
-            override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
-                if (!collapsing || available.y >= 0f) return Offset.Zero
-                val previous = toolbarOffsetPx
-                toolbarOffsetPx = (toolbarOffsetPx - available.y).coerceIn(0f, collapseRange)
-                return Offset(0f, previous - toolbarOffsetPx)
-            }
+    val nestedConnection =
+        remember(collapsing, collapseRange) {
+            object : NestedScrollConnection {
+                override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+                    if (!collapsing || available.y >= 0f) return Offset.Zero
+                    val previous = toolbarOffsetPx
+                    toolbarOffsetPx = (toolbarOffsetPx - available.y).coerceIn(0f, collapseRange)
+                    return Offset(0f, previous - toolbarOffsetPx)
+                }
 
-            override fun onPostScroll(
-                consumed: Offset,
-                available: Offset,
-                source: NestedScrollSource,
-            ): Offset {
-                if (!collapsing || available.y <= 0f) return Offset.Zero
-                val previous = toolbarOffsetPx
-                toolbarOffsetPx = (toolbarOffsetPx - available.y).coerceIn(0f, collapseRange)
-                return Offset(0f, previous - toolbarOffsetPx)
+                override fun onPostScroll(
+                    consumed: Offset,
+                    available: Offset,
+                    source: NestedScrollSource,
+                ): Offset {
+                    if (!collapsing || available.y <= 0f) return Offset.Zero
+                    val previous = toolbarOffsetPx
+                    toolbarOffsetPx = (toolbarOffsetPx - available.y).coerceIn(0f, collapseRange)
+                    return Offset(0f, previous - toolbarOffsetPx)
+                }
             }
         }
-    }
-    val toolbarHeight = if (collapsing) {
-        with(density) { (expandedToolbarHeight.toPx() - toolbarOffsetPx).toDp() }
-    } else {
-        collapsedHeight
-    }
+    val toolbarHeight =
+        if (collapsing) {
+            with(density) { (expandedToolbarHeight.toPx() - toolbarOffsetPx).toDp() }
+        } else {
+            collapsedHeight
+        }
     val progress =
         if (!collapsing || collapseRange <= 0f) 1f
         else (toolbarOffsetPx / collapseRange).coerceIn(0f, 1f)
@@ -197,8 +202,10 @@ internal fun SettingsPageScaffold(
             bottom = navigationBarPadding,
         )
     Box(
-        modifier.fillMaxSize().background(containerColor)
-            .then(if (collapsing) Modifier.nestedScroll(nestedConnection) else Modifier),
+        modifier
+            .fillMaxSize()
+            .background(containerColor)
+            .then(if (collapsing) Modifier.nestedScroll(nestedConnection) else Modifier)
     ) {
         content(contentPadding)
         Column {
